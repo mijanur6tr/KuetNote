@@ -1,16 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState , useEffect } from 'react'
 import './App.css'
+import  authService  from './appWrite/auth.js'
+import {logIn , logOut} from "./store/authSlice.js"
+import { useDispatch } from 'react-redux'
+import { Outlet } from 'react-router-dom'
+import { Footer, Header } from './components'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [load, setLoad] = useState(true);
+  const dispatch = useDispatch()
 
-  return (
-    <>
-      <h1>Kuet whisper f2025</h1>
-    </>
-  )
+  useEffect( ()=>{
+          authService.getCurrentUser()
+          .then((userData)=>{
+            if (userData) {
+              dispatch(logIn({userData}))
+            } else {
+              dispatch(logOut())
+            }
+          })
+          .finally(()=>setLoad(false))
+  },[] )
+
+  return !load ? (
+    <div className='bg-gray-400 min-h-screen flex felx-wrap content-between'>
+      <div className='w-full block'>
+        <Header/>
+        <Outlet/>
+        <Footer/>
+      </div>
+    </div>
+  ) : null;
 }
 
 export default App

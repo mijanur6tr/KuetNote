@@ -1,5 +1,5 @@
 import { Client, Account, ID } from "appwrite";
-import config from '../config/config.js'
+import config from '../conf/conf.js'
 
 export class AuthSevice {
     client= new Client();
@@ -13,7 +13,7 @@ export class AuthSevice {
             
     }
 
-    async createAccount ({email, password , name}){
+    async signUp ({email, password , name}){
         try {
             const userAccount = await this.account.create(ID.unique(),email,name)
 
