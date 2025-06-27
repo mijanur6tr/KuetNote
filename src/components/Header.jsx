@@ -1,7 +1,8 @@
 import React from 'react'
-import { Container , LogoutBtn} from "./index"
+import { Container ,Logo, LogoutBtn} from "./index"
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 function Header() {
@@ -9,30 +10,30 @@ function Header() {
   const authStatus = useSelector((state)=>(state.auth.status))
   const navigate = useNavigate()
 
-  navItems = [
+  const navItems = [
     {
-      name:home,
+      name:"Home",
       slug:"/",
       active:true
     },
     {
-      name:LogIn,
+      name:"LogIn",
       slug:"/login",
       active:!authStatus
     },
     {
-      name:SignUp,
+      name:"SignUp",
       slug:"/signup",
       active:!authStatus
     },
     {
-      name:AddPost,
-      slug:"/addpost",
+      name:"AddPost",
+      slug:"/add-post",
       active:authStatus
     },
     {
-      name:AllPost,
-      slug:"/allpost",
+      name:"AllPost",
+      slug:"/all-post",
       active:authStatus
     },
   ]
@@ -41,9 +42,12 @@ function Header() {
       <Container>
         <nav className='flex'>
           <div className='mr-4'>
+           <Link to='/'>
+              <Logo width='70px'   />
 
+              </Link>
           </div>
-          <ul>
+          <ul className='flex ml-auto'>
             {
               navItems.map((item)=>
               item.active ? (

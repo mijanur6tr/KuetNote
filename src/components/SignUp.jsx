@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { Navigate, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import authService from '../appWrite/auth';
-import { useState } from 'react';
 import { logIn } from '../store/authSlice';
 import { useForm } from 'react-hook-form';
-import { Button, Logo, Input } from './index';
-import Login from './Login';
+import { Button, Input } from './index';
+
 
 
 
@@ -18,10 +17,10 @@ const SignUp = (props) => {
 
   const signup = async (data) => {
     setError('')
-    const user = authService.signUp(data)
+    const user =await authService.signUp(data)
     if (user) {
-      const userdata = authService.getCurrentUser(user)
-      if (userdata) dispatch(Login(user))
+      const userdata =await authService.getCurrentUser(user)
+      if (userdata) dispatch(logIn(user))
       navigate("/")
     }
 
@@ -32,7 +31,7 @@ const SignUp = (props) => {
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
         <h2>Sign up if you are new</h2>
         {error && <P className="text-red-600 mt-8 text-center">{error}</P>}
-        <From onSubmit={handleSubmit(signup)}>
+        <form onSubmit={handleSubmit(signup)}>
           <div>
             <Input
               type="text"
@@ -67,12 +66,13 @@ const SignUp = (props) => {
 
             <Button
               type="submit"
+              className="w-full "
             >
               Sign Up
             </Button>
 
           </div>
-        </From>
+        </form>
 
         <p className="mt-2 text-center text-base text-black/60">
           Already have an account?&nbsp;

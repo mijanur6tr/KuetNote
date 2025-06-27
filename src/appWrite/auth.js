@@ -43,6 +43,7 @@ export class AuthSevice {
         } catch (error) {
             console.log("Appwrite service :: getUser error",error)
         }
+        return null;
     }
 
     async logOut (){

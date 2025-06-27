@@ -1,13 +1,13 @@
 import React from 'react'
-import {Login as compLogIn} from '../components/index'
+import {Login as CompLogIn} from '../components/index'
 
 
 const Login = (props) => {
   return(
     <div className='py-7'>
-        <compLogIn/>
+        <CompLogIn/>
     </div>
    )
   }
 
-  export default Login
+  export default Login;
