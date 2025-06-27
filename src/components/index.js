@@ -8,6 +8,7 @@ import { RTE } from "./RTE"
 import { Select } from './Select'
 import {PostCard} from "./PostCard"
 import {PostForm} from "./PostForm"
+import {AuthLayout} from "./AuthLayout"
 
 
 export {
@@ -20,6 +21,7 @@ export {
     RTE,
     Select,
     PostCard,
-    PostForm
+    PostForm,
+    AuthLayout
 
 }
