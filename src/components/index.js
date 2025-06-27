@@ -6,6 +6,8 @@ import { Input } from "./Input"
 import { Button } from "./Button"
 import { RTE } from "./RTE"
 import { Select } from './Select'
+import {PostCard} from "./PostCard"
+import {PostForm} from "./PostForm"
 
 
 export {
@@ -16,6 +18,8 @@ export {
     Input,
     Button,
     RTE,
-    Select
+    Select,
+    PostCard,
+    PostForm
 
 }
