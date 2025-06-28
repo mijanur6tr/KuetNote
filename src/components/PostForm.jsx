@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Input, RTE, Select } from "./index"
 import { useSelector } from 'react-redux'
-import service, { Service } from '../appWrite/config'
+import service from '../appWrite/config'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -23,7 +23,7 @@ const PostForm = (post) => {
 
   const submit = async (data) => {
     if (post) {
-      const file = data.image[0] ? await service.creteFile(data.image[0]) : null
+      const file = data.image[0] ? await service.createFile(data.image[0]) : null
 
       if (file) {
         service.deleteFile(post.featuredImage)
@@ -80,7 +80,10 @@ const PostForm = (post) => {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+       <form onSubmit={
+        handleSubmit(submit, (err) => console.log('Validation Error', err))}
+        className='flex flex-wrap'
+        >
         <div className="w-2/3 px-2">
           <Input
             type="text"
@@ -133,7 +136,7 @@ const PostForm = (post) => {
           )}
 
           <Select
-            option={["active", "inactive"]}
+            options={["active", "inactive"]}
             label="Status"
             className="mb-4"
             {...register("status", { required: true })}
@@ -145,7 +148,7 @@ const PostForm = (post) => {
 
         </div>
 
-      </Form>
+      </form>
     </div>
   )
 }

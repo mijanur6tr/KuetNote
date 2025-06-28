@@ -95,14 +95,14 @@ export class Service {
                 ]
             )
         } catch (error) {
-            console.log("Appwrite service :: update post :: error",error);
+            console.log("Appwrite service :: get posts :: error",error);
             return false;
         }
     }
 
 // file upload , file delete 
 
-    async creteFile (file){
+    async createFile (file){
         try {
             return await this.storage.createFile(
                 config.appwriteBucketId,
@@ -111,7 +111,7 @@ export class Service {
             )
         } catch (error) {
              console.log("Appwrite service :: create file :: error",error);
-             return flase;
+             return false;
         }
     }
 

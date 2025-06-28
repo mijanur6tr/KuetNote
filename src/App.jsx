@@ -24,7 +24,7 @@ function App() {
   },[] )
 
   return !load ? (
-    <div className='bg-gray-400 min-h-screen flex felx-wrap content-between'>
+    <div className='bg-[#aa9898f7] min-h-screen w-full flex felx-wrap content-between'>
       <div className='w-full block'>
         <Header/>
         <Outlet/>

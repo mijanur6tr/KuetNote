@@ -20,7 +20,7 @@ const Home = (props) => {
 
  if( posts.length ===0){
   return(
-    <div>
+    <div className='h-2/3 flex justify-center py-5'>
       <p>Log in to see Posts.</p>
       <Link
       to="/login"

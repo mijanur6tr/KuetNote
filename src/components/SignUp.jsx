@@ -9,19 +9,26 @@ import { Button, Input } from './index';
 
 
 
-const SignUp = (props) => {
+const SignUp = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [error, setError] = useState()
-  const { register, handleSubmit } = useForm()
+  const [error, setError] = useState("")
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const signup = async (data) => {
+    console.log("Signup form submitted with data:", data);
+
     setError('')
-    const user =await authService.signUp(data)
-    if (user) {
-      const userdata =await authService.getCurrentUser(user)
-      if (userdata) dispatch(logIn(user))
-      navigate("/")
+    try {
+      const user = await authService.signUp(data)
+      if (user) {
+        const userdata = await authService.getCurrentUser()
+        console.log(userdata)
+        if (userdata) dispatch(logIn(userdata))
+        navigate("/")
+      }
+    } catch (error) {
+      setError(error.message)
     }
 
   }
@@ -30,8 +37,9 @@ const SignUp = (props) => {
     <div className="flex items-center justify-center">
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
         <h2>Sign up if you are new</h2>
-        {error && <P className="text-red-600 mt-8 text-center">{error}</P>}
-        <form onSubmit={handleSubmit(signup)}>
+        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        <form onSubmit={handleSubmit(signup, (err) => console.log('Validation Error', err))}>
+
           <div>
             <Input
               type="text"
@@ -43,17 +51,18 @@ const SignUp = (props) => {
             />
 
             <Input
-              type='email'
+              type="email"
               label="Email:"
               placeholder="Enter your email"
               {...register("email", {
-                required: true,
-                validate: {
-                  matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                    "Email address must be a valid address",
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Email address must be a valid address"
                 }
               })}
             />
+            {errors.email && <p className="text-red-600">{errors.email.message}</p>}
 
             <Input
               type="password"
@@ -66,7 +75,7 @@ const SignUp = (props) => {
 
             <Button
               type="submit"
-              className="w-full "
+              className="w-full mt-4"
             >
               Sign Up
             </Button>
@@ -83,7 +92,7 @@ const SignUp = (props) => {
             Sign In
           </Link>
         </p>
-        
+
       </div>
     </div>
   )

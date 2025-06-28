@@ -1,7 +1,7 @@
 import { Client, Account, ID } from "appwrite";
 import config from '../conf/conf.js'
 
-export class AuthSevice {
+export class AuthService {
     client= new Client();
     account;
 
@@ -15,7 +15,7 @@ export class AuthSevice {
 
     async signUp ({email, password , name}){
         try {
-            const userAccount = await this.account.create(ID.unique(),email,name)
+            const userAccount = await this.account.create(ID.unique(),email,password,name)
 
             if (userAccount) {
                 //give the access to log in
@@ -56,6 +56,6 @@ export class AuthSevice {
 
 }
 
-const authService = new AuthSevice();
+const authService = new AuthService();
 
 export default authService;

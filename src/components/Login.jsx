@@ -14,11 +14,11 @@ function Login () {
   const {register, handleSubmit} = useForm()
 
   const login = async(data) => {
-    setError= ""
+    setError= ('')
     try {
       const session = await authService.logIn(data)
       if(session){
-        const userData = authService.getCurrentUser(data);
+        const userData =await authService.getCurrentUser(data);
         if(userData) dispatch(authLogIN(userData));
           navigate("/");
       }
