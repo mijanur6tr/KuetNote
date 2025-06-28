@@ -1,49 +1,72 @@
-import React , {useState , useEffect} from 'react'
-import {Container , PostCard} from '../components'
+import React, { useState, useEffect } from 'react'
+import { Container, PostCard } from '../components'
 import service from '../appWrite/config'
-import { Link } from 'react-router-dom'
+import authService from '../appWrite/auth' 
 
+const Home = () => {
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
 
-const Home = (props) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userData = await authService.getCurrentUser()
+        setUser(userData)
 
-  const [posts,setPosts] = useState([])
-
-  useEffect(()=>{
-    if(posts){
-      service.getPosts().then((posts)=>{
-        if(posts){
-          setPosts(posts.documents)
+        if (userData) {
+          const postsRes = await service.getPosts()
+          if (postsRes) {
+            setPosts(postsRes.documents)
+          }
         }
-      })
+      } catch (err) {
+        console.log(err.message)
+      } finally {
+        setLoading(false)
+      }
     }
-  },[])
 
- if( posts.length ===0){
-  return(
-    <div className='h-2/3 flex justify-center py-5'>
-      <p>Log in to see Posts.</p>
-      <Link
-      to="/login"
-      >
-      LogIn
-      </Link>
-    </div>
-  )
- }
+    fetchData()
+  }, [])
 
-  return(
+  if (loading) {
+    return (
+      <div className='h-2/3 flex justify-center items-center py-10'>
+        <p className='text-xl font-semibold'>Loading...</p>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className='h-2/3 flex justify-center items-center py-10'>
+        <p className='text-xl font-semibold'>Log in to see posts.</p>
+      </div>
+    )
+  }
+
+  if (posts.length === 0) {
+    return (
+      <div className='h-2/3 flex justify-center items-center py-10'>
+        <p className='text-xl font-semibold'>No posts found.</p>
+      </div>
+    )
+  }
+
+  return (
     <div className='w-full py-8'>
       <Container>
-          {
-            posts.map(()=>(
-              <div key={posts.$id} className='p-2 w-1/4'>
-                <PostCard {...posts}/>
-              </div>
-            ))
-          }
+        <div className='flex flex-wrap'>
+          {posts.map((post) => (
+            <div key={post.$id} className='p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4'>
+              <PostCard {...post} />
+            </div>
+          ))}
+        </div>
       </Container>
     </div>
-   )
-  }
-  
-export default Home;
+  )
+}
+
+export default Home

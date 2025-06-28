@@ -38,7 +38,7 @@ export class Service {
         }
     }
 
-    async updatePost ({title, content , slug, featuredImage , status}){
+    async updatePost ({slug,title, content , featuredImage , status}){
         try {
             return await this.database.updateDocument(
                 config.appwriteDatabaseId,
@@ -106,7 +106,7 @@ export class Service {
         try {
             return await this.storage.createFile(
                 config.appwriteBucketId,
-                ID.unique,
+                ID.unique(),
                 file,
             )
         } catch (error) {
@@ -128,17 +128,19 @@ export class Service {
         }
     }
 
-    previewFile (fileID){
-
-        try {
-             this.storage.getFilePreview(
-                config.appwriteBucketId,
-                fileID,
-            )
-        } catch (error) {
-              console.log("Appwrite service :: preview file :: error",error);
-        }
+  previewFile(fileID) {
+  try {
+    if (!fileID) {
+      throw new Error("Missing file ID");
     }
+
+    return this.storage.getFileView(config.appwriteBucketId, fileID);
+  } catch (error) {
+    console.log("Appwrite service :: preview file :: error", error);
+    
+  }
+}
+
 
 
 }

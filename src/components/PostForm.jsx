@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { use, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Input, RTE, Select } from "./index"
 import { useSelector } from 'react-redux'
@@ -6,7 +6,7 @@ import service from '../appWrite/config'
 import { useNavigate } from 'react-router-dom'
 
 
-const PostForm = (post) => {
+const PostForm = ({post}) => {
 
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
     defaultValues: {
@@ -22,6 +22,7 @@ const PostForm = (post) => {
   const user = useSelector((state) => state.auth.userData)
 
   const submit = async (data) => {
+  
     if (post) {
       const file = data.image[0] ? await service.createFile(data.image[0]) : null
 
@@ -29,7 +30,8 @@ const PostForm = (post) => {
         service.deleteFile(post.featuredImage)
       }
 
-      const yourPost = service.updatePost(post.$id, {
+      const yourPost = service.updatePost({
+        slug:post.$id, 
         ...data,
         featuredImage: file ? file.$id : undefined,
       })
@@ -38,12 +40,12 @@ const PostForm = (post) => {
 
     } else {
 
-      const file = await service.creteFile(data.image[0])
+      const file = await service.createFile(data.image[0])
 
       if (file) {
         const fileId = file.$id;
-        featuredImage = fileId;
-        const newPost = service.createPost({ ...data, userId: user.$id })
+        data.featuredImage = fileId;
+        const newPost =await service.createPost({ ...data, userId: user.$id })
         if (newPost) {
           navigate(`/post/${newPost.$id}`)
         }
@@ -59,6 +61,7 @@ const PostForm = (post) => {
         .toLowerCase()
         .replace(/[^a-zA-Z\d\s]+/g, "-")
         .replace(/\s/g, "-")
+        .slice(0, 36);  
     }
 
     return ""
@@ -97,7 +100,7 @@ const PostForm = (post) => {
           />
 
           <Input
-            label="Slug :"
+            label="Slug:"
             placeholder="Slug"
             className="mb-4"
             {...register("slug", { required: true })}
@@ -106,6 +109,7 @@ const PostForm = (post) => {
             }}
           />
 
+          
           <RTE
             label='content:'
             name="content"
@@ -118,14 +122,14 @@ const PostForm = (post) => {
         <div className="w-1/3 px-2">
 
           <Input
-            label="FeaturedImage"
+            label="Featured Image"
             type="file"
             className="mb-4"
             accept="image/png, image/jpg, image/jpeg, image/gif"
             {...register("image", { required: !post })}
           />
 
-          {post && (
+          {post?.featuredImage && (
             <div className="w-full mb-4">
               <img
                 src={service.previewFile(post.featuredImage)}

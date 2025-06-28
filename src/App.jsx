@@ -1,5 +1,4 @@
 import { useState , useEffect } from 'react'
-import './App.css'
 import  authService  from './appWrite/auth.js'
 import {logIn , logOut} from "./store/authSlice.js"
 import { useDispatch } from 'react-redux'
@@ -24,13 +23,16 @@ function App() {
   },[] )
 
   return !load ? (
-    <div className='bg-[#aa9898f7] min-h-screen w-full flex felx-wrap content-between'>
-      <div className='w-full block'>
-        <Header/>
-        <Outlet/>
-        <Footer/>
-      </div>
-    </div>
+   <div className='bg-[#aa9898f7] min-h-screen w-full flex flex-col'>
+  <Header />
+
+  <main className='flex-grow'>
+    <Outlet />
+  </main>
+
+  <Footer />
+</div>
+
   ) : null;
 }
 

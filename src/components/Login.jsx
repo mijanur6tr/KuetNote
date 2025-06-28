@@ -1,88 +1,92 @@
-import React ,  {useState, useTransition} from 'react'
-import { Button,Input,Logo } from './index'
-import { useNavigate , Link } from 'react-router-dom'
+import React, { useState, useTransition } from 'react'
+import { Button, Input, Logo } from './index'
+import { useNavigate, Link } from 'react-router-dom'
 import authService from '../appWrite/auth'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { logIn as authLogIN } from '../store/authSlice'
 
 
-function Login () {
+function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [error, setError] = useState()
-  const {register, handleSubmit} = useForm()
+  const [error, setError] = useState("")
+  const { register, handleSubmit , formState: { errors } } = useForm()
 
-  const login = async(data) => {
-    setError= ('')
+  const login = async (data) => {
+   
+    setError('')
     try {
       const session = await authService.logIn(data)
-      if(session){
-        const userData =await authService.getCurrentUser(data);
-        if(userData) dispatch(authLogIN(userData));
-          navigate("/");
+      if (session) {
+        const userData = await authService.getCurrentUser();
+        if (userData) dispatch(authLogIN(userData));
+        navigate("/");
       }
     } catch (error) {
       setError(error.message)
     }
   }
 
-  
 
-  return(
+
+  return (
     <div className='flex items-center justify-center w-full'>
       <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
 
-          <h2>Sing in your account</h2>
-          {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        <h2>Sing in your account</h2>
+        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
-          <form onSubmit={handleSubmit(login)} className='mt-8'> 
-            <div className='space-y-5'>
-              <Input
-                type='email'
-                label= "Email:"
-                placeholder= "Enter your email"
-                {...register("email",{
-                  required:true,
-                  validate:{
-                    matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                              "Email address must be a valid address",
-                  }
-                })}
-              />
+          <form onSubmit={handleSubmit(login, (err) => console.log('Validation Error', err))}>
+          <div className='space-y-5'>
+            <Input
+              type="email"
+              label="Email:"
+              placeholder="Enter your email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Email address must be a valid address"
+                }
+              })}
+            />
 
-              <Input
+            {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+            
+
+            <Input
               type="password"
               label="Password"
               placeholder="Enter your password"
-              {...register("password",{
-                required:true
+              {...register("password", {
+                required: true
               })}
-              />
+            />
 
-              <Button
+            <Button
               type='submit'
               className='w-full'
-              >
-                Sign In
-              </Button>
-            </div>
-          </form>
+            >
+              Sign In
+            </Button>
+          </div>
+        </form>
 
-          <p className="mt-2 text-center text-base text-black/60">
-                    Don&apos;t have any account?&nbsp;
-                    <Link
-                        to="/signup"
-                        className="font-medium text-primary transition-all duration-200 hover:underline"
-                    >
-                        Sign Up
-                    </Link>
+        <p className="mt-2 text-center text-base text-black/60">
+          Don&apos;t have any account?&nbsp;
+          <Link
+            to="/signup"
+            className="font-medium text-primary transition-all duration-200 hover:underline"
+          >
+            Sign Up
+          </Link>
         </p>
-          
+
       </div>
     </div>
-   )
-  }
+  )
+}
 
 
-  export default Login;
+export default Login;

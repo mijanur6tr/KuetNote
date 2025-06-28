@@ -4,9 +4,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import service from '../appWrite/config'
 
 
-const EditPost = (props) => {
+const EditPost = () => {
 
- const slug = useParams()
+ const {slug} = useParams()
  const navigate = useNavigate()
  const [post ,setPost] = useState()
 
@@ -24,11 +24,11 @@ const EditPost = (props) => {
 
  },[slug,navigate])
 
-  return post ? <div className='py-8'>
+  return post ? (<div className='py-8'>
     <Container>
       <PostForm post={post}/>
     </Container>
-  </div> : null;
+  </div>) : null;
   }
 
   export default EditPost;

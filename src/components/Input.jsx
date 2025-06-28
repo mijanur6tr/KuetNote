@@ -25,6 +25,7 @@ const Input = React.forwardRef(function Input(
         </label> }
         
         <input
+        id={id}
         type={type}
         label={label}
         ref={ref}
