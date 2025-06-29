@@ -12,6 +12,7 @@ import Container from "./Container"
 import LogoutBtn from "./LogoutBtn"
 import SignUp from "./SignUp"
 import Login from "./Login"
+import Hero from "./Hero"
 
 
 export {
@@ -28,6 +29,7 @@ export {
     AuthLayout,
     LogoutBtn,
     SignUp,
-    Login
+    Login,
+    Hero
 
 }

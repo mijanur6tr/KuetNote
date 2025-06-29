@@ -23,7 +23,7 @@ function App() {
   },[] )
 
   return !load ? (
-   <div className='bg-[#aa9898f7] min-h-screen w-full flex flex-col'>
+   <div className='bg-[#fffffff7] min-h-screen w-full flex flex-col'>
   <Header />
 
   <main className='flex-grow'>

@@ -1,0 +1,6 @@
+:root {
+  --primary-gradient: linear-gradient(135deg, #e63946, #f1faee);
+  --overlay-color: rgba(0, 0, 0, 0.4);
+  --accent: #a8dadc;
+  --bg-dark: #1d3557;
+}

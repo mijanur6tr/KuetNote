@@ -15,7 +15,7 @@ const LogoutBtn = (props) => {
     }
   return(
     <button
-    className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
+    className='inline-bock px-3 py-1 duration-200 hover:bg-blue-100 rounded-lg'
     onClick={logOutHandler}
     >Log Out</button>
    )
