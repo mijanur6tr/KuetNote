@@ -26,7 +26,12 @@ const PostForm = ({ post }) => {
   const user = useSelector((state) => state.auth.userData)
 
   const submit = async (data) => {
-    console.log(data)
+    if (!user?.$id) {
+      console.error("User not ready. Please wait a moment before posting.");
+      alert("User info not loaded yet. Please wait a moment and try again.");
+      return;
+    }
+
     if (post) {
       const file = data.image[0] ? await service.createFile(data.image[0]) : null
 
