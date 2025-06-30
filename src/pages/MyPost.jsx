@@ -11,16 +11,27 @@ const MyPost = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
-    service.getMyPosts(user.$id).then(res => {
-      if (res) {
-        setPosts(res.documents);
+    const fetchMyPosts = async () => {
+      if (!user?.$id) {
+        console.warn("User ID not found. Skipping fetch.");
+        return;
+      }
+
+      try {
+        const res = await service.getMyPosts(user.$id);
+        if (res) {
+          setPosts(res.documents);
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      } finally {
         setLoading(false);
       }
-    });
+    };
+
+    fetchMyPosts();
   }, [user]);
 
-  // Filter posts based on status filter
   const filteredPosts = posts.filter(post =>
     filter === 'All' ? true : post.status === filter
   );
@@ -59,7 +70,6 @@ const MyPost = () => {
                 key={post.$id}
                 className='w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 relative'
               >
-                {/* Status Badge */}
                 <span
                   className={`absolute top-2 right-2 text-xs font-bold px-2 py-1 rounded-full ${
                     post.status === 'Public'
