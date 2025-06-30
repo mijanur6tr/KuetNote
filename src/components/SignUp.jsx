@@ -33,69 +33,88 @@ const SignUp = () => {
 
   }
 
-  return (
-    <div className="flex items-center justify-center">
-      <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
-        <h2>Sign up if you are new</h2>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-        <form onSubmit={handleSubmit(signup, (err) => console.log('Validation Error', err))}>
+ 
 
-          <div>
-            <Input
-              type="text"
-              label="Full Name:"
-              placeholder="Write down your full name"
-              {...register("name", {
-                required: true
-              })}
-            />
+return (
+  <div className="min-h-screen bg-white flex items-center justify-center px-4">
+    <div className="w-full max-w-md bg-gradient-to-br from-white via-gray-100 to-white rounded-2xl shadow-xl p-10 border border-gray-200">
 
-            <Input
-              type="email"
-              label="Email:"
-              placeholder="Enter your email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Email address must be a valid address"
-                }
-              })}
-            />
-            {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+      <h2 className="text-3xl font-extrabold text-center text-slate-800 mb-2 tracking-wide">
+        Create an Account
+      </h2>
+      <p className="text-sm text-center text-gray-500 mb-6">
+        Join us to share your ideas and read blogs!
+      </p>
 
-            <Input
-              type="password"
-              label="Password"
-              placeholder="Enter your password"
-              {...register("password", {
-                required: true
-              })}
-            />
-
-            <Button
-              type="submit"
-              className="w-full mt-4"
-            >
-              Sign Up
-            </Button>
-
-          </div>
-        </form>
-
-        <p className="mt-2 text-center text-base text-black/60">
-          Already have an account?&nbsp;
-          <Link
-            to="/login"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
-          >
-            Sign In
-          </Link>
+      {error && (
+        <p className="text-red-600 mt-2 mb-4 text-center text-sm font-medium">
+          {error}
         </p>
+      )}
 
-      </div>
+      <form onSubmit={handleSubmit(signup, (err) => console.log('Validation Error', err))}>
+        <div className="space-y-5">
+
+          <Input
+            type="text"
+            label="Full Name"
+            placeholder="John Doe"
+            {...register("name", {
+              required: "Full name is required"
+            })}
+            labelClass="text-gray-700 font-semibold text-sm mb-1"
+          />
+          {errors.name && <p className="text-red-500 text-sm">Full name is required</p>}
+
+          <Input
+            type="email"
+            label="Email"
+            placeholder="you@example.com"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Email must be valid"
+              }
+            })}
+            labelClass="text-gray-700 font-semibold text-sm mb-1"
+          />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+
+          <Input
+            type="password"
+            label="Password"
+            placeholder="••••••••"
+            {...register("password", {
+              required: "Password is required"
+            })}
+            labelClass="text-gray-700 font-semibold text-sm mb-1"
+          />
+          {errors.password && <p className="text-red-500 text-sm">Password is required</p>}
+
+          <Button
+            type="submit"
+            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition duration-300"
+          >
+            Sign Up
+          </Button>
+
+        </div>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-gray-500">
+        Already have an account?{" "}
+        <Link
+          to="/login"
+          className="text-blue-600 hover:underline font-semibold"
+        >
+          Sign In
+        </Link>
+      </p>
     </div>
-  )
+  </div>
+)
+
 }
 
 export default SignUp;

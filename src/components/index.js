@@ -13,6 +13,7 @@ import LogoutBtn from "./LogoutBtn"
 import SignUp from "./SignUp"
 import Login from "./Login"
 import Hero from "./Hero"
+import Loader from "./Loader"
 
 
 export {
@@ -31,5 +32,6 @@ export {
     SignUp,
     Login,
     Hero,
+    Loader,
 
 }

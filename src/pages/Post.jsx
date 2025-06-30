@@ -40,7 +40,7 @@ const Post = () => {
     <div className="py-8">
       <Container>
         <div className="w-full max-w-3xl mx-auto bg-white border rounded-xl shadow-md p-6">
-         
+
           <div className="w-full flex justify-center mb-6">
             <img
               src={service.previewFile(post.featuredImage)}
@@ -48,27 +48,31 @@ const Post = () => {
               className="max-w-full max-h-[400px] rounded-lg mx-auto"
             />
           </div>
-          
+
           <h1 className="text-3xl font-bold text-center mb-4">{post.title}</h1>
-         
+
           <div className="prose max-w-none mb-6">{parse(post.content)}</div>
 
           {isAuthor && (
-            <div className="flex justify-center gap-4 mt-6">
+            <div className="flex justify-center gap-10 mt-6">
               <Link to={`/edit-post/${post.$id}`}>
-                <Button bgColor="bg-green-500" className="px-6 py-2">
+                <Button
+                  bgColor="bg-green-500 hover:bg-green-600"
+                  className="px-6 py-1 rounded-xl shadow-md transition duration-300 text-white font-medium"
+                >
                   Edit
                 </Button>
               </Link>
 
               <Button
-                bgColor="bg-red-500"
-                className="px-6 py-2"
+                bgColor="bg-red-500 hover:bg-red-600"
+                className="px-3 py-1 rounded-xl shadow-md transition duration-300 text-white font-medium"
                 onClick={deletePost}
               >
                 Delete
               </Button>
             </div>
+
           )}
         </div>
       </Container>

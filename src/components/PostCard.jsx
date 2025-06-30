@@ -3,6 +3,9 @@ import service from '../appWrite/config'
 import { Link } from 'react-router-dom'
 
 const PostCard = ({ $id, title, featuredImage }) => {
+
+  
+
   return (
     <Link to={`/post/${$id}`} className="block">
       <div className="w-full bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 hover:shadow-lg duration-300">
