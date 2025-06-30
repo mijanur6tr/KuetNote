@@ -42,6 +42,7 @@ function Login() {
             <Input
               type="email"
               label="Email:"
+              
               placeholder="Enter your email"
               {...register("email", {
                 required: "Email is required",

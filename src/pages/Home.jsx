@@ -9,7 +9,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState(null)
 
-  useEffect(() => {
+useEffect(() => {
     const fetchData = async () => {
       try {
         const userData = await authService.getCurrentUser()

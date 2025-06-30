@@ -30,6 +30,6 @@ export {
     LogoutBtn,
     SignUp,
     Login,
-    Hero
+    Hero,
 
 }

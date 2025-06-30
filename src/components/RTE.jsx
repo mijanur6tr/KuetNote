@@ -11,13 +11,15 @@ const RTE = ({name,label,control,defaultValue=""}) => {
       <Controller
       name ={ name || ""}
       control={control}
+        defaultValue={defaultValue}
       render={
-        ( {field:{onChange}} )=>(
+        ( {field:{onChange,value}} )=>(
            <Editor
            apiKey={tinymceApi}
-        initialValue={defaultValue}
+      value={value}
+      onEditorChange={onChange}
         init={{
-            initialValue: defaultValue,
+            
             height: 500,
             menubar: true,
             plugins: [
@@ -46,7 +48,7 @@ const RTE = ({name,label,control,defaultValue=""}) => {
             "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
             content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
         }}
-        onEditorChange={onChange}
+        
         />
       )
       }

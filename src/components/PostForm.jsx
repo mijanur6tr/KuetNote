@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, Input, RTE, Select } from "./index"
+import { Button, Input, RTE, Select, } from "./index"
 import { useSelector } from 'react-redux'
 import service from '../appWrite/config'
 import { useNavigate } from 'react-router-dom'
@@ -11,9 +11,16 @@ const PostForm = ({ post }) => {
       title: post?.title || "",
       slug: post?.$id || "",
       content: post?.content || "",
-      status: post?.status || "active",
+      status: post?.status || "Active",
     },
   })
+
+  // useEffect(() => {
+  //   if (post?.content) {
+  //     setValue("content", post.content)
+  //   }
+  // }, [post, setValue])
+
 
   const navigate = useNavigate()
   const user = useSelector((state) => state.auth.userData)
@@ -68,77 +75,84 @@ const PostForm = ({ post }) => {
   }, [watch, transformSlug, setValue])
 
   return (
-    <div className="py-6 px-4 max-w-6xl mx-auto">
-      <form
-        onSubmit={handleSubmit(submit, (err) => console.log('Validation Error', err))}
-        className="flex flex-col md:flex-row flex-wrap gap-6"
-      >
-        {/* LEFT SECTION */}
-        <div className="md:w-2/3 w-full px-2">
-          <Input
-            type="text"
-            label="Title:"
-            placeholder="Enter your blog title"
-            className="mb-4 w-full max-w-lg"
-            {...register("title", {
-              required: true,
-            })}
-            labelClass="text-indigo-700 font-semibold"
-          />
+    <div className="py-10 px-4 bg-gradient-to-br from-yellow-100 via-amber-200 to-yellow-100 min-h-screen rounded-2xl">
+      <h2 className="text-3xl font-bold text-center mb-10 text-amber-800">
+        Create Your Post. <span className="text-indigo-600">Paint Creativity</span>
+      </h2>
 
-          {/* Hidden slug input */}
-          <input
-            type="hidden"
-            {...register("slug", { required: true })}
-          />
+      <div className="max-w-6xl mx-auto bg-black/5 rounded-xl shadow-lg p-6 lg:p-16">
 
-          <RTE
-            label="Content:"
-            name="content"
-            control={control}
-            defaultValues={getValues("content")}
-            labelClass="text-indigo-700 font-semibold"
-          />
-        </div>
+        <form
+          onSubmit={handleSubmit(submit, (err) => console.log('Validation Error', err))}
+          className="flex lg:gap-10 flex-wrap"
+        >
+          {/* LEFT SECTION */}
+          <div className="lg:w-3/5 px-2  w-full ">
+            <Input
+              type="text"
+              label="Title:"
+              placeholder="Enter your blog title"
+              className="mb-6 w-full"
+              {...register("title", { required: true })}
+              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
 
-        {/* RIGHT SECTION */}
-        <div className="md:w-1/3 w-full px-2">
-          <Input
-            label="Featured Image"
-            type="file"
-            className="mb-4"
-            accept="image/png, image/jpg, image/jpeg, image/gif"
-            {...register("image", { required: !post })}
-            labelClass="text-indigo-700 font-semibold"
-          />
+            />
 
-          {post?.featuredImage && (
-            <div className="w-full mb-4 rounded-lg overflow-hidden border border-gray-200">
-              <img
-                src={service.previewFile(post.featuredImage)}
-                alt={post.title}
-                className="rounded-md w-full h-auto object-cover"
-              />
-            </div>
-          )}
+            {/* Hidden slug input */}
+            <input type="hidden" {...register("slug", { required: true })} />
 
-          <Select
-            options={["active", "inactive"]}
-            label="Status"
-            className="mb-4"
-            {...register("status", { required: true })}
-            labelClass="text-indigo-700 font-semibold"
-          />
+            <RTE
+              label="Content:"
+              name="content"
+              control={control}
+              defaultValues={getValues("content")}
+              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
 
-          <Button
-            type="submit"
-            bgColor={post ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"}
-            className="w-full text-white font-semibold py-2 rounded-md"
-          >
-            {post ? "Update" : "Submit"}
-          </Button>
-        </div>
-      </form>
+            />
+          </div>
+
+          {/* RIGHT SECTION */}
+          <div className="lg:w-1/3 w-full px-2 flex flex-col gap-6 ">
+            <Input
+              label="Featured Image"
+              type="file"
+              placeholder="Choose Your File"
+              className="w-1/2"
+              accept="image/png, image/jpg, image/jpeg, image/gif"
+              {...register("image", { required: !post })}
+              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
+            />
+
+             {post?.featuredImage && (
+              <div className="w-full rounded-lg overflow-hidden border border-gray-300 shadow-sm">
+                <img
+                  src={service.previewFile(post.featuredImage)}
+                  alt={post.title}
+                  className="rounded-md w-full h-auto object-cover"
+                />
+              </div>
+            )}
+
+            <Select
+              options={["Active", "Inactive"]}
+              label="Status"
+              className="w-1/2 mt-1"
+              
+              {...register("status", { required: true })}
+              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-2 tracking-wide"
+            />
+
+            <Button
+              type="submit"
+              bgColor={post ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"}
+              className="text-white mx-auto font-semibold py-2 rounded-md w-1/2"
+            >
+              {post ? "Update Post" : "Publish Post"}
+            </Button>
+          </div>
+
+        </form>
+      </div>
     </div>
   )
 }
