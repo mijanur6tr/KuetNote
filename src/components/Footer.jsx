@@ -6,7 +6,7 @@ function Footer() {
     <footer className="relative overflow-hidden py-5 bg-slate-700 border-t-2 border-t-black">
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-8 flex flex-col items-center">
 
-        {/* Centered Columns */}
+        {/* Centered Column */}
         <div className="flex flex-wrap justify-center gap-10 lg:gap-50 w-full">
           {/* Company */}
           <div className="w-full sm:w-auto p-4">
