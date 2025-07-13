@@ -60,8 +60,8 @@ const Home = () => {
           {publicPosts.length > 8 && (
             <div className="flex justify-center items-center mt-8">
               <Link to="/all-post">
-                <button className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow-lg transition duration-300">
-                  See More...
+                <button className="px-6 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-md shadow-lg transition duration-300">
+                  See More
                 </button>
               </Link>
             </div>

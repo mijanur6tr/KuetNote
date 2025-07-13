@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { use } from 'react'
 import service from '../appWrite/config'
 import { Link } from 'react-router-dom'
+
 
 const PostCard = ({ $id, title, featuredImage }) => {
 
@@ -23,6 +24,7 @@ const PostCard = ({ $id, title, featuredImage }) => {
         <div className="p-4">
           <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
         </div>
+
       </div>
     </Link>
   )

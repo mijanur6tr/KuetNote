@@ -5,6 +5,7 @@ import authService from '../appWrite/auth';
 import { logIn } from '../store/authSlice';
 import { useForm } from 'react-hook-form';
 import { Button, Input } from './index';
+import { toast } from 'react-toastify';
 
 
 
@@ -23,9 +24,9 @@ const SignUp = () => {
       const user = await authService.signUp(data)
       if (user) {
         const userdata = await authService.getCurrentUser()
-        console.log(userdata)
         if (userdata) dispatch(logIn(userdata))
         navigate("/")
+        toast.success("Registered Successfully")
       }
     } catch (error) {
       setError(error.message)

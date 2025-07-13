@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import service from '../appWrite/config';
 import { Container, PostCard, Loader, Button } from '../components';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import authService from '../appWrite/auth';
 
 const MyPost = () => {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState('All'); // All, Public, Private
-  const user = useSelector(state => state.auth.userData);
+  // const user = useSelector((state)=>state.auth.userData)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMyPosts = async () => {
+     const user = await authService.getCurrentUser()
       if (!user?.$id) {
         console.warn("User ID not found. Skipping fetch.");
         return;
@@ -30,7 +32,7 @@ const MyPost = () => {
     };
 
     fetchMyPosts();
-  }, [user]);
+  }, []);
 
   const filteredPosts = posts.filter(post =>
     filter === 'All' ? true : post.status === filter

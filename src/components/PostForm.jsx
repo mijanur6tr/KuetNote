@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Input, RTE, Select, } from "./index"
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import service from '../appWrite/config'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import authService from '../appWrite/auth'
 
 const PostForm = ({ post }) => {
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -23,40 +25,67 @@ const PostForm = ({ post }) => {
 
 
   const navigate = useNavigate()
-  const user = useSelector((state) => state.auth.userData)
+  // const user = useSelector((state) => state.auth.userData)
+
 
   const submit = async (data) => {
+    const user = await authService.getCurrentUser()
     if (!user?.$id) {
       console.error("User not ready. Please wait a moment before posting.");
-      alert("User info not loaded yet. Please wait a moment and try again.");
+      toast.error("User info not loaded yet.");
+      return;
+    }
+
+    const selectedFile = data.image?.[0];
+
+
+    if (selectedFile && selectedFile.size > 3 * 1024 * 1024) {
+      toast.error("File is too large. Maximum allowed size is 3MB.");
+      return;
+    }
+
+
+    if (data.content && data.content.length > 1500) {
+      toast.error(`Post content is too long (${data.content.length} characters). Limit is 1500.`);
       return;
     }
 
     if (post) {
-      const file = data.image[0] ? await service.createFile(data.image[0]) : null
+      const file = selectedFile ? await service.createFile(selectedFile) : null;
 
       if (file) {
-        service.deleteFile(post.featuredImage)
+        await service.deleteFile(post.featuredImage);
       }
 
       const updatedPost = await service.updatePost(post.$id, {
         ...data,
         featuredImage: file ? file.$id : undefined,
-      })
+      });
 
-      if (updatedPost) navigate(`/post/${updatedPost.$id}`)
+      if (updatedPost) {
+        toast.success("Post Updated!");
+        navigate(`/post/${updatedPost.$id}`);
+      }
     } else {
-      const file = await service.createFile(data.image[0])
+      const file = await service.createFile(selectedFile);
       if (file) {
         const newPost = await service.createPost({
           ...data,
           userId: user.$id,
           featuredImage: file.$id,
-        })
-        if (newPost) navigate(`/post/${newPost.$id}`)
+        });
+        if (newPost) {
+          toast.success("Post Uploaded!");
+          navigate(`/post/${newPost.$id}`);
+        } else {
+          await service.deleteFile(file.$id);
+          toast.error("Failed to upload post.");
+        }
       }
     }
-  }
+  };
+
+
 
   const transformSlug = useCallback((value) => {
     if (value && typeof value == "string") {

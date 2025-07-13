@@ -42,6 +42,9 @@ function Header() {
       active:authStatus
     },
   ]
+
+ 
+
   return (
     <header className="bg-gradient-to-r from-[#fdfbfb] to-[#ebedee] text-gray-800 shadow-md sticky top-0 z-50">
       <Container>
