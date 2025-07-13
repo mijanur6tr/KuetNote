@@ -55,14 +55,14 @@ const PostForm = ({ post }) => {
     const selectedFile = data.image?.[0];
 
 
-    if (selectedFile && selectedFile.size > 3 * 1024 * 1024) {
-      toast.error("File is too large. Maximum allowed size is 3MB.");
+    if (selectedFile && selectedFile.size > 5 * 1024 * 1024) {
+      toast.error("File is too large. Maximum allowed size is 5MB.");
       return;
     }
 
 
-    if (data.content && data.content.length > 1500) {
-      toast.error(`Post content is too long (${data.content.length} characters). Limit is 1500.`);
+    if (data.content && data.content.length > 1640) {
+      toast.error(`Post content is too long (${data.content.length} characters). Limit is 1640.`);
       return;
     }
 
