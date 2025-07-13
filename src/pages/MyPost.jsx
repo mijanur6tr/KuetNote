@@ -7,7 +7,7 @@ import authService from '../appWrite/auth';
 
 const MyPost = () => {
   const [posts, setPosts] = useState([]);
-  const [filter, setFilter] = useState('All'); // All, Public, Private
+  const [filter, setFilter] = useState('All'); 
   // const user = useSelector((state)=>state.auth.userData)
   const [loading, setLoading] = useState(true);
 
@@ -47,7 +47,7 @@ const MyPost = () => {
           Your <span className="text-indigo-600">Posts</span>
         </h2>
 
-        {/* Filter Buttons */}
+        
         <div className="flex justify-center gap-4 mb-10">
           {['All', 'Public', 'Private'].map(status => (
             <button
@@ -55,8 +55,8 @@ const MyPost = () => {
               onClick={() => setFilter(status)}
               className={`px-4 py-2 rounded-md font-medium border transition duration-200 ${
                 filter === status
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-blue-600 border-blue-600 hover:bg-blue-100'
+                  ? 'bg-cyan-600 text-white'
+                  : 'bg-white text-cyan-600 border-cyan-600 hover:bg-blue-100'
               }`}
             >
               {status}
@@ -64,7 +64,7 @@ const MyPost = () => {
           ))}
         </div>
 
-        {/* Posts Grid */}
+        
         {filteredPosts.length > 0 ? (
           <div className='flex flex-wrap -mx-2'>
             {filteredPosts.map(post => (

@@ -1,40 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom'
-import service from '../appWrite/config'
-import parse from 'html-react-parser'
-import { useSelector } from 'react-redux'
-import { Button, Container } from '../components'
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import service from '../appWrite/config';
+import parse from 'html-react-parser';
+import { Button, Container } from '../components';
+import authService from '../appWrite/auth';
 
 const Post = () => {
-  const navigate = useNavigate()
-  const user = useSelector((state) => state.auth.userData)
-  const [post, setPost] = useState(null)
-  const { slug } = useParams()
+  const navigate = useNavigate();
+  const { slug } = useParams();
 
-  const isAuthor = post && user ? user.$id === post.userId : false
+  const [post, setPost] = useState(null);
+  const [user, setUser] = useState(null);
+  const [isAuthor, setIsAuthor] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (slug) {
-      service.getPost(slug).then((post) => {
-        if (post) {
-          setPost(post)
-        } else {
-          navigate('/')
-        }
-      })
-    } else {
-      navigate('/')
-    }
-  }, [slug, navigate])
+    const fetchPostAndUser = async () => {
+      try {
+        const currentUser = await authService.getCurrentUser();
+        setUser(currentUser);
 
-  const deletePost = () => {
-    service.deletePost(post.$id).then((status) => {
-      if (status) {
-        service.deleteFile(post.featuredImage)
-        navigate('/')
+        if (!slug) return navigate('/');
+
+        const fetchedPost = await service.getPost(slug);
+        if (!fetchedPost) return navigate('/');
+
+        setPost(fetchedPost);
+
+        if (currentUser && fetchedPost.userId === currentUser.$id) {
+          setIsAuthor(true);
+        }
+      } catch (error) {
+        console.error("Error fetching post/user:", error);
+        navigate('/');
+      } finally {
+        setLoading(false);
       }
-    })
-  }
+    };
+
+    fetchPostAndUser();
+  }, [slug, navigate]);
+
+  const deletePost = async () => {
+    try {
+      const status = await service.deletePost(post.$id);
+      if (status) {
+        await service.deleteFile(post.featuredImage);
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
+  if (loading) return <p className="text-center text-lg text-gray-500 py-10">Loading post...</p>;
 
   return post ? (
     <div className="py-8">
@@ -72,12 +91,11 @@ const Post = () => {
                 Delete
               </Button>
             </div>
-
           )}
         </div>
       </Container>
     </div>
-  ) : null
-}
+  ) : null;
+};
 
-export default Post
+export default Post;

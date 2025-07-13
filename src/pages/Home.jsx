@@ -47,7 +47,7 @@ const Home = () => {
             Explore <span className="text-indigo-600">Prominent Places Of KUET</span>
           </h2>
 
-          {/* Post Grid */}
+         
           <div className="flex flex-wrap -mx-2">
             {limitedPosts.map((post) => (
               <div key={post.$id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
@@ -56,11 +56,11 @@ const Home = () => {
             ))}
           </div>
 
-          {/* See More Button if there are more than 8 */}
+         
           {publicPosts.length > 8 && (
             <div className="flex justify-center items-center mt-8">
               <Link to="/all-post">
-                <button className="px-6 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-md shadow-lg transition duration-300">
+                <button className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white font-light rounded-lg shadow-lg transition duration-300">
                   See More
                 </button>
               </Link>

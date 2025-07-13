@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Input, RTE, Select, } from "./index"
 // import { useSelector } from 'react-redux'
@@ -6,6 +6,7 @@ import service from '../appWrite/config'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import authService from '../appWrite/auth'
+import { UploadCloud } from 'lucide-react'
 
 const PostForm = ({ post }) => {
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -14,8 +15,23 @@ const PostForm = ({ post }) => {
       slug: post?.$id || "",
       content: post?.content || "",
       status: post?.status || "Public",
+      category: post?.category || "Random Thought"
     },
   })
+
+  const [previewImage, setPreviewImage] = useState(null);
+
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === "image" && value.image && value.image[0]) {
+        const file = value.image[0];
+        setPreviewImage(URL.createObjectURL(file));
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
 
   // useEffect(() => {
   //   if (post?.content) {
@@ -114,7 +130,7 @@ const PostForm = ({ post }) => {
         Create Your Post. <span className="text-indigo-600">Paint Creativity</span>
       </h2>
 
-      <div className="max-w-6xl mx-auto bg-black/3 rounded-xl shadow-lg p-6 lg:p-16">
+      <div className="max-w-6xl mx-auto bg-black/4 rounded-xl shadow-lg p-6 lg:p-16">
 
         <form
           onSubmit={handleSubmit(submit, (err) => console.log('Validation Error', err))}
@@ -132,7 +148,7 @@ const PostForm = ({ post }) => {
 
             />
 
-            {/* Hidden slug input */}
+            
             <input type="hidden" {...register("slug", { required: true })} />
 
             <RTE
@@ -147,25 +163,38 @@ const PostForm = ({ post }) => {
 
           {/* RIGHT SECTION */}
           <div className="lg:w-1/3 w-full px-2 flex flex-col gap-6 ">
-            <Input
-              label="Featured Image"
-              type="file"
-              placeholder="Choose Your File"
-              className="w-1/2"
-              accept="image/png, image/jpg, image/jpeg, image/gif"
-              {...register("image", { required: !post })}
-              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
-            />
+            <div className="flex flex-col gap-2">
+              <label className="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide">
+                Featured Image
+              </label>
 
-            {post?.featuredImage && (
+              <label className="w-full border-2 border-solid border-gray-400 rounded-lg p-3 text-center cursor-pointer bg-gray-100 hover:bg-gray-200 transition">
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <UploadCloud className="w-6 h-6 text-blue-600" />
+                  <span className="text-gray-700 text-sm">
+                    {previewImage || post?.featuredImage ? 'Click to change image' : 'Click to upload'}
+                  </span>
+
+                </div>
+                <input
+                  type="file"
+                  accept="image/png, image/jpg, image/jpeg, image/gif"
+                  className="hidden"
+                  {...register("image", { required: !post })}
+                />
+              </label>
+            </div>
+
+            {(previewImage || post?.featuredImage) && (
               <div className="w-full rounded-lg overflow-hidden border border-gray-300 shadow-sm">
                 <img
-                  src={service.previewFile(post.featuredImage)}
-                  alt={post.title}
+                  src={previewImage || service.previewFile(post.featuredImage)}
+                  alt="Preview"
                   className="rounded-md w-full h-auto object-cover"
                 />
               </div>
             )}
+
 
             <Select
               options={["Public", "Private"]}
@@ -173,6 +202,14 @@ const PostForm = ({ post }) => {
               className="w-1/2 "
 
               {...register("status", { required: true })}
+              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
+            />
+            <Select
+              options={["Prominent Places", "Random Thought", "Academic", "Subject Review"]}
+              label="Categoy"
+              className="w-1/2 "
+
+              {...register("category", { required: true })}
               labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
             />
 

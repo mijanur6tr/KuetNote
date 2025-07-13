@@ -26,7 +26,7 @@ const Hero = ({ isLoggedIn }) => {
         </p>
         <Link
           to={isLoggedIn ? "/add-post" : "/login"}
-          className="mt-6 px-4 py-2 text-white bg-cyan-700  font-semibold rounded-xl hover:bg-cyan-800 transition duration-300"
+          className="mt-6 px-4 py-2 text-white bg-cyan-600  font-semibold rounded-xl hover:bg-cyan-700 transition duration-300"
         >
           {isLoggedIn ? "Express Yourself :)" : "Log in to Explore Posts"}
         </Link>

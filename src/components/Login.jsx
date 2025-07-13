@@ -5,7 +5,7 @@ import authService from '../appWrite/auth'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { logIn as authLogIN } from '../store/authSlice'
-import { toast } from 'react-toastify'
+
 
 
 function Login() {
@@ -23,7 +23,7 @@ function Login() {
         const userData = await authService.getCurrentUser();
         if (userData) dispatch(authLogIN(userData));
         navigate("/");
-        toast.success("Logged In")
+       
       }
     } catch (error) {
       setError(error.message)
