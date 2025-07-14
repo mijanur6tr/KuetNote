@@ -1,39 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import service from '../appWrite/config';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, PostCard, Loader } from '../components';
+import { ContextStore } from '../context/contextStore';
 
-const categories = ['All', 'Prominent Places', 'Random Thought', 'Academic', 'Subject Review'];
+const categories = ["All", "Learn & Share", "Random Thought", "Academic","Prominent Places", "Subject Review"];
 
 const AllPost = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
+  const {postList,loading} = useContext(ContextStore)
   const [selectedCategory, setSelectedCategory] = useState('All');
 
- useEffect(() => {
-  const fetchPosts = async () => {
-    try {
-      const res = await service.getPosts([]);
-      if (res) {
-        const publicPosts = res.documents
+  const publicPosts = postList
           .filter(post => post.status === 'Public')
           .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
-        setPosts(publicPosts);
-      }
-    } catch (error) {
-      console.error('Failed to fetch posts:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  fetchPosts();
-}, []);
+ 
 
 
   const filteredPosts =
     selectedCategory === 'All'
-      ? posts
-      : posts.filter(post => post.category === selectedCategory);
+      ? publicPosts
+      : publicPosts.filter(post => post.category === selectedCategory);
 
   if (loading) return <Loader />;
 
@@ -46,12 +32,12 @@ const AllPost = () => {
         </h2>
 
        
-        <div className="flex overflow-x-auto gap-2 sm:gap-4 mb-10 pb-2">
+        <div className="flex overflow-x-auto  gap-2 sm:gap-4 mb-10 pb-2">
           {categories.map(category => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-3 space-y-0 py-o.1  sm:px-4 sm:py-2 rounded-md text-sm sm:text-base sm:font-medium font-thin border transition duration-200 ${selectedCategory === category
+              className={`whitespace-nowrap px-3   sm:px-4 py-2 rounded-md text-sm sm:text-base sm:font-medium font-medium border transition duration-200 ${selectedCategory === category
                   ? 'bg-cyan-600 text-white'
                   : 'bg-white text-cyan-600 border-cyan-600 hover:bg-blue-100'
                 }`}
@@ -67,7 +53,7 @@ const AllPost = () => {
             {filteredPosts.map(post => (
               <div
                 key={post.$id}
-                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2"
+                className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2"
               >
                 <PostCard {...post} />
               </div>

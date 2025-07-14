@@ -1,5 +1,5 @@
 import React, { useState, useTransition } from 'react'
-import { Button, Input, Logo } from './index'
+import { Button, Input } from './index'
 import { useNavigate, Link } from 'react-router-dom'
 import authService from '../appWrite/auth'
 import { useDispatch } from 'react-redux'

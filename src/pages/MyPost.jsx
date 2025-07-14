@@ -1,40 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import service from '../appWrite/config';
 import { Container, PostCard, Loader, Button } from '../components';
-// import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import authService from '../appWrite/auth';
+import { ContextStore } from '../context/contextStore';
 
 const MyPost = () => {
-  const [posts, setPosts] = useState([]);
+  
+  const {myPostList,loading} = useContext(ContextStore)
   const [filter, setFilter] = useState('All'); 
-  // const user = useSelector((state)=>state.auth.userData)
-  const [loading, setLoading] = useState(true);
+  
 
-  useEffect(() => {
-    const fetchMyPosts = async () => {
-     const user = await authService.getCurrentUser()
-      if (!user?.$id) {
-        console.warn("User ID not found. Skipping fetch.");
-        return;
-      }
-
-      try {
-        const res = await service.getMyPosts(user.$id);
-        if (res) {
-          setPosts(res.documents);
-        }
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMyPosts();
-  }, []);
-
-  const filteredPosts = posts.filter(post =>
+  const filteredPosts = myPostList.filter(post =>
     filter === 'All' ? true : post.status === filter
   );
 

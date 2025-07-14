@@ -18,11 +18,15 @@ import AllPost from "./pages/AllPost.jsx"
 import Post from "./pages/Post.jsx"
 import MyPost from './pages/MyPost.jsx'
 
+import ContextStoreProvider from './context/contextStore.jsx'
+
  
 const router = createBrowserRouter([
   {
     path:"/",
-    element:<App/>,
+    element: <ContextStoreProvider>
+        <App />
+      </ContextStoreProvider>,
     children:[
       {
         path:"/",
@@ -93,8 +97,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store ={store}>
-    <RouterProvider router={router}/>
+    <Provider store={store}>
+      <RouterProvider router={router} />
     </Provider>
   </StrictMode>,
-)
+);

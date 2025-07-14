@@ -4,7 +4,7 @@ import hero from "../assets/hero.jpg"
 
 const Hero = ({ isLoggedIn }) => {
   return (
-    <section className="relative w-full h-[50vh] lg:h-[80vh] xl:h-[90vh] overflow-hidden">
+    <section className="relative w-full h-[60vh] lg:h-[80vh] xl:h-[90vh] overflow-hidden">
       <img
         src={hero}
         alt="Hero Background"

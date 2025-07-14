@@ -1,12 +1,12 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Input, RTE, Select, } from "./index"
-// import { useSelector } from 'react-redux'
 import service from '../appWrite/config'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import authService from '../appWrite/auth'
 import { UploadCloud } from 'lucide-react'
+import { ContextStore } from '../context/contextStore'
 
 const PostForm = ({ post }) => {
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -20,6 +20,8 @@ const PostForm = ({ post }) => {
   })
 
   const [previewImage, setPreviewImage] = useState(null);
+  const navigate = useNavigate()
+  const {user}= useContext(ContextStore)
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
@@ -33,19 +35,8 @@ const PostForm = ({ post }) => {
   }, [watch]);
 
 
-  // useEffect(() => {
-  //   if (post?.content) {
-  //     setValue("content", post.content)
-  //   }
-  // }, [post, setValue])
-
-
-  const navigate = useNavigate()
-  // const user = useSelector((state) => state.auth.userData)
-
 
   const submit = async (data) => {
-    const user = await authService.getCurrentUser()
     if (!user?.$id) {
       console.error("User not ready. Please wait a moment before posting.");
       toast.error("User info not loaded yet.");
@@ -205,7 +196,7 @@ const PostForm = ({ post }) => {
               labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
             />
             <Select
-              options={["Prominent Places", "Random Thought", "Academic", "Subject Review"]}
+              options={["Learn & Share", "Random Thought", "Academic","Prominent Places", "Subject Review"]}
               label="Categoy"
               className="w-1/2 "
 

@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import service from '../appWrite/config';
 import parse from 'html-react-parser';
-import { Button, Container } from '../components';
-import authService from '../appWrite/auth';
+import { Button, Container,Loader } from '../components';
+import { ContextStore } from '../context/contextStore';
 
 const Post = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
 
   const [post, setPost] = useState(null);
-  const [user, setUser] = useState(null);
   const [isAuthor, setIsAuthor] = useState(false);
   const [loading, setLoading] = useState(true);
+  const {user} = useContext(ContextStore)
 
   useEffect(() => {
     const fetchPostAndUser = async () => {
       try {
-        const currentUser = await authService.getCurrentUser();
-        setUser(currentUser);
-
+       
         if (!slug) return navigate('/');
 
         const fetchedPost = await service.getPost(slug);
@@ -27,7 +25,7 @@ const Post = () => {
 
         setPost(fetchedPost);
 
-        if (currentUser && fetchedPost.userId === currentUser.$id) {
+        if (user && fetchedPost.userId === user.$id) {
           setIsAuthor(true);
         }
       } catch (error) {
@@ -53,7 +51,7 @@ const Post = () => {
     }
   };
 
-  if (loading) return <p className="text-center text-lg text-gray-500 py-10">Loading post...</p>;
+  if (loading) return <Loader/>;
 
   return post ? (
     <div className="py-8">

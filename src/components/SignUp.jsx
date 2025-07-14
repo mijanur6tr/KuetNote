@@ -8,8 +8,6 @@ import { Button, Input } from './index';
 
 
 
-
-
 const SignUp = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
