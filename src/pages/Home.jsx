@@ -1,10 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Container, PostCard, Hero, Loader } from '../components';
 import { Link } from 'react-router-dom';
 import { ContextStore } from '../context/contextStore';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
-  const { user, postList, loading } = useContext(ContextStore);
+  const { postList, loading } = useContext(ContextStore);
+  const user = useSelector((state)=>state.auth.userData);
+
+  // useEffect(()=>{
+  //   console.log(user)
+  // },[user])
 
   const categories = [
     "Learn & Share",

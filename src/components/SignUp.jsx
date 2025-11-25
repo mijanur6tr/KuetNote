@@ -15,7 +15,6 @@ const SignUp = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const signup = async (data) => {
-    console.log("Signup form submitted with data:", data);
 
     setError('')
     try {
@@ -32,76 +31,83 @@ const SignUp = () => {
 
   }
 
- 
-
 return (
-  <div className="min-h-screen bg-white flex items-center justify-center px-4">
-    <div className="w-full max-w-md bg-gradient-to-br from-white via-gray-100 to-white rounded-2xl shadow-xl p-10 border border-gray-200">
-
-      <h2 className="text-3xl font-extrabold text-center text-slate-800 mb-2 tracking-wide">
+  <div className="min-h-screen bg-gradient-to-br from-white to-gray-100 flex items-center justify-center px-4">
+    <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+      
+      <h2 className="text-3xl font-extrabold text-center text-slate-800 mb-1">
         Create an Account
       </h2>
-      <p className="text-sm text-center text-gray-500 mb-6">
-        Join us to share your ideas and read blogs!
+      <p className="text-center text-gray-500 text-sm mb-6">
+        Join us to share your ideas & explore creativity.
       </p>
 
       {error && (
-        <p className="text-red-600 mt-2 mb-4 text-center text-sm font-medium">
+        <p className="text-red-600 mb-4 text-center text-sm font-medium">
           {error}
         </p>
       )}
 
-      <form onSubmit={handleSubmit(signup, (err) => console.log('Validation Error', err))}>
-        <div className="space-y-5">
+      <form onSubmit={handleSubmit(signup)}>
+        <div className="space-y-4">
 
-          <Input
-            type="text"
-            label="Full Name"
-            placeholder="John Doe"
-            {...register("name", {
-              required: "Full name is required"
-            })}
-            labelClass="text-gray-700 font-semibold text-sm mb-1"
-          />
-          {errors.name && <p className="text-red-500 text-sm">Full name is required</p>}
+          {/* FULL NAME */}
+          <div>
+            <Input
+              type="text"
+              label="Full Name"
+              placeholder="John Doe"
+              {...register("name", { required: true })}
+              labelClass="text-gray-700 font-medium text-sm mb-1"
+            />
+            {errors.name && <p className="text-red-500 text-sm">Full name is required</p>}
+          </div>
 
-          <Input
-            type="email"
-            label="Email"
-            placeholder="you@example.com"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Email must be valid"
-              }
-            })}
-            labelClass="text-gray-700 font-semibold text-sm mb-1"
-          />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          {/* EMAIL */}
+          <div>
+            <Input
+              type="email"
+              label="Email"
+              placeholder="you@example.com"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Invalid email format"
+                }
+              })}
+              labelClass="text-gray-700 font-medium text-sm mb-1"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
+          </div>
 
-          <Input
-            type="password"
-            label="Password"
-            placeholder="••••••••"
-            {...register("password", {
-              required: "Password is required"
-            })}
-            labelClass="text-gray-700 font-semibold text-sm mb-1"
-          />
-          {errors.password && <p className="text-red-500 text-sm">Password is required</p>}
+          {/* PASSWORD */}
+          <div>
+            <Input
+              type="password"
+              label="Password"
+              placeholder="••••••••"
+              {...register("password", { required: "Password is required" })}
+              labelClass="text-gray-700 font-medium text-sm mb-1"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">Password is required</p>
+            )}
+          </div>
 
+          {/* BUTTON */}
           <Button
             type="submit"
-            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition duration-300"
+            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md transition duration-200"
           >
-            Sign Up
+            Create Account
           </Button>
-
         </div>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className="mt-6 text-center text-sm text-gray-600">
         Already have an account?{" "}
         <Link
           to="/login"
@@ -112,7 +118,7 @@ return (
       </p>
     </div>
   </div>
-)
+);
 
 }
 

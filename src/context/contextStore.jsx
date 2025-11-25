@@ -1,6 +1,7 @@
 import { createContext ,useState,useEffect} from "react";
-import authService from "../appWrite/auth";
+// import authService from "../appWrite/auth";
 import service from "../appWrite/config";
+import { useSelector } from "react-redux";
 
 
 
@@ -8,22 +9,24 @@ export const ContextStore = createContext(null)
 
 const ContextStoreProvider = (props) => {
 
+  const user = useSelector((state)=>state.auth.userData);
+
 const [postList,setPostList] = useState([])
 const [myPostList,setMyPostList] = useState([])
-const [user,setUser] = useState(null)
+// const [user,setUser] = useState(null)
 const [loading, setLoading] = useState(true)
 
 
-const getUser = async ()=>{
-    try {
-        const res = await authService.getCurrentUser();
-        if(res){
-            setUser(res)  
-        }
-    } catch (error) {
-        console.log(error.message)
-    }
-}
+// const getUser = async ()=>{
+//     try {
+//         const res = await authService.getCurrentUser();
+//         if(res){
+//             setUser(res)  
+//         }
+//     } catch (error) {
+//         console.log(error.message)
+//     }
+// }
 
 const fetchPosts = async () => {
   try {
@@ -59,8 +62,8 @@ const fetchMyPost = async ()=>{
     
     const fetchData = async () => {
       try {
-            await fetchPosts()
-          await getUser()
+           await fetchPosts();
+           await fetchMyPost();
       } catch (err) {
         console.log(err.message)
       } finally {
@@ -68,21 +71,7 @@ const fetchMyPost = async ()=>{
       }
     }
     fetchData()
-  }, [])
-
- useEffect(() => {
-    
-    const fetchData = async () => {
-      try {
-            await fetchMyPost()
-      } catch (err) {
-        console.log(err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [user])
+  }, [user,postList])
 
 const contextValue = {
     postList,
@@ -91,7 +80,7 @@ const contextValue = {
     loading,
     fetchMyPost,
     fetchPosts,
-    getUser,
+    // getUser,
     
 }
 

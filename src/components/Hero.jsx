@@ -1,38 +1,43 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import hero from "../assets/hero.jpg"
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Hero = ({ isLoggedIn }) => {
   return (
-    <section className="relative w-full h-[60vh] lg:h-[80vh] xl:h-[90vh] overflow-hidden">
-      <img
-        src={hero}
-        alt="Hero Background"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-black/40"></div>
+    <section className={`relative w-full flex items-center justify-center overflow-hidden bg-gradient-to-b 
+  from-slate-900 via-slate-800 to-slate-900 
+  ${isLoggedIn ? "h-[60vh]" : "h-screen"}`}>
 
-      <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
-          Welcome to <span className="text-4xl md:text-6xl font-bold text-center mb-10 text-blue-300">
-        Kuet<span className="text-amber-400">Note.</span>
-      </span>
+      {/* Soft glow circles */}
+      <div className="absolute top-10 left-20 w-52 h-52 bg-cyan-400/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-10 right-20 w-52 h-52 bg-amber-400/20 rounded-full blur-3xl"></div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl animate-fadeIn">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+          {isLoggedIn ? "Post on " : "Welcome to "}
+          <span className="bg-gradient-to-r from-cyan-400 to-amber-300 bg-clip-text text-transparent">
+            KuetNote
+          </span>
         </h1>
-        <p className="mt-4 text-lg md:text-2xl text-gray-50 tracking-tighter lg:tracking-tight font-medium max-w-xl drop-shadow-md">
-          Dive into fresh thoughts, creativity & GenZ culture.
+
+        <p className="mt-4 text-lg sm:text-xl text-slate-300 font-medium max-w-xl">
+          Your space to explore creativity, share insights,
+          and experience campus culture with a Gen-Z spark.
         </p>
-        <p className="mt-4 text-lg md:text-2xl text-gray-50 tracking-tighter lg:tracking-tight font-medium max-w-xl drop-shadow-md">
-          Shape the abstract.
+
+        <p className="mt-2 text-lg sm:text-xl text-slate-300 font-medium max-w-xl">
+          Every idea matters. Express yours.
         </p>
+
         <Link
           to={isLoggedIn ? "/add-post" : "/login"}
-          className="mt-6 px-4 py-2 text-white bg-cyan-600  font-semibold rounded-xl hover:bg-cyan-700 transition duration-300"
+          className="mt-8 px-6 py-3 rounded-xl text-white text-lg font-semibold bg-cyan-600 hover:bg-cyan-700 transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          {isLoggedIn ? "Express Yourself :)" : "Log in to Explore Posts"}
+          {isLoggedIn ? "Express Yourself ✨" : "Log in to Explore Posts"}
         </Link>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;
