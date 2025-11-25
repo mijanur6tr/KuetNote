@@ -16,7 +16,7 @@ export class Service {
 
   // create , delete , update , get a post(list) , get multiple posts (query)
 
-  async createPost({ title, slug, content, featuredImage, status, userId ,category}) {
+  async createPost({ title, slug, content, featuredImage, status, userId, userName ,category}) {
     try {
       return await this.database.createDocument(
         config.appwriteDatabaseId,
@@ -29,6 +29,7 @@ export class Service {
           featuredImage,
           status,
           userId,
+          userName,
           category
         }
       );

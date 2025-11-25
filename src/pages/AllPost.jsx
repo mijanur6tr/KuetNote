@@ -2,9 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, PostCard, Loader } from '../components';
 import { ContextStore } from '../context/contextStore';
 
+
 const categories = ["All", "Learn & Share", "Random Thought", "Academic","Prominent Places", "Subject Review"];
 
 const AllPost = () => {
+  
   
   const {postList,loading} = useContext(ContextStore)
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -12,9 +14,6 @@ const AllPost = () => {
   const publicPosts = postList
           .filter(post => post.status === 'Public')
           .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
-
- 
-
 
   const filteredPosts =
     selectedCategory === 'All'

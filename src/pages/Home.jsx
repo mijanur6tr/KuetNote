@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Container, PostCard, Hero, Loader } from '../components';
+import React, { useContext } from 'react';
+import { Container, PostCard, Hero, Loader , HighLight} from '../components';
 import { Link } from 'react-router-dom';
 import { ContextStore } from '../context/contextStore';
 import { useSelector } from 'react-redux';
@@ -13,8 +13,8 @@ const Home = () => {
   // },[user])
 
   const categories = [
-    "Learn & Share",
     "Random Thought",
+    "Learn & Share",
     "Academic",
     "Subject Review",
     "Prominent Places" 
@@ -34,8 +34,8 @@ const Home = () => {
       <div key={category} className="w-full py-8">
         <Container>
           <h2 className="text-3xl font-bold text-center mb-10 text-amber-800">
-            {category === "Learn & Share" && <span>Share & Help Others</span>}
-            {category !== "Learn & Share" && category}
+            {category === "Random Thought" && <span>Random Thoughts</span>}
+            {category !== "Random Thought" && category}
           </h2>
 
           <div className="flex flex-wrap -mx-2">
@@ -45,19 +45,12 @@ const Home = () => {
               </div>
             ))}
           </div>
-
-          <div className="flex justify-center items-center mt-8">
-            <Link to="/all-post">
-              <button className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white font-medium rounded-lg shadow-lg transition duration-300">
-                Explore More
-              </button>
-            </Link>
-          </div>
         </Container>
       </div>
     );
   };
 
+  
 
   
   const prominentPosts = publicPosts.filter((post) => post.category === "Prominent Places").sort((a, b) => new Date(a.$createdAt) - new Date(b.$createdAt));;
@@ -66,6 +59,7 @@ const Home = () => {
   return (
     <div className="w-full">
       {!loading && <Hero isLoggedIn={user} />}
+      {!user && <HighLight/>}
 
       {loading ? (
         <Loader />

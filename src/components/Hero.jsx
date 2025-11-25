@@ -5,7 +5,7 @@ const Hero = ({ isLoggedIn }) => {
   return (
     <section className={`relative w-full flex items-center justify-center overflow-hidden bg-gradient-to-b 
   from-slate-900 via-slate-800 to-slate-900 
-  ${isLoggedIn ? "h-[60vh]" : "h-screen"}`}>
+  ${isLoggedIn ? "h-[40vh]" : "h-[50vh] lg:h-[60vh]"}`}>
 
       {/* Soft glow circles */}
       <div className="absolute top-10 left-20 w-52 h-52 bg-cyan-400/20 rounded-full blur-3xl"></div>
@@ -20,14 +20,16 @@ const Hero = ({ isLoggedIn }) => {
           </span>
         </h1>
 
-        <p className="mt-4 text-lg sm:text-xl text-slate-300 font-medium max-w-xl">
+        {isLoggedIn ? <></> : (<p className="mt-4 text-lg sm:text-xl text-slate-300 font-medium max-w-xl">
           Your space to explore creativity, share insights,
           and experience campus culture with a Gen-Z spark.
-        </p>
-
+        </p>)
+}
         <p className="mt-2 text-lg sm:text-xl text-slate-300 font-medium max-w-xl">
           Every idea matters. Express yours.
         </p>
+
+        
 
         <Link
           to={isLoggedIn ? "/add-post" : "/login"}

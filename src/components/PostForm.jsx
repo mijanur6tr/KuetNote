@@ -79,6 +79,7 @@ const PostForm = ({ post }) => {
         const newPost = await service.createPost({
           ...data,
           userId: user.$id,
+          userName : user.name,
           featuredImage: file.$id,
         });
         if (newPost) {

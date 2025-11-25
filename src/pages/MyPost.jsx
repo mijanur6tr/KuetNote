@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import service from '../appWrite/config';
 import { Container, PostCard, Loader, Button } from '../components';
 import { Link } from 'react-router-dom';
-import authService from '../appWrite/auth';
+// import authService from '../appWrite/auth';
 import { ContextStore } from '../context/contextStore';
 
 const MyPost = () => {
@@ -11,9 +11,10 @@ const MyPost = () => {
   const [filter, setFilter] = useState('All'); 
   
 
-  const filteredPosts = myPostList.filter(post =>
-    filter === 'All' ? true : post.status === filter
-  );
+const filteredPosts = myPostList
+  .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt)) // DESC order
+  .filter(post => (filter === 'All' ? true : post.status === filter));
+
 
   if (loading) return <Loader />;
 
@@ -50,9 +51,9 @@ const MyPost = () => {
                 className='w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 relative'
               >
                 <span
-                  className={`absolute top-2 right-2 text-xs font-bold px-2 py-1 rounded-full ${
+                  className={`absolute top-4 right-5 text-xs font-bold px-1 py-.5 rounded-full ${
                     post.status === 'Public'
-                      ? 'bg-green-500 text-white'
+                      ? 'bg-green-400 text-white'
                       : 'bg-gray-500 text-white'
                   }`}
                 >

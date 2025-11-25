@@ -14,6 +14,7 @@ import SignUp from "./SignUp"
 import Login from "./Login"
 import Hero from "./Hero"
 import Loader from "./Loader"
+import HighLight from "./HighLight"
 
 
 export {
@@ -33,5 +34,6 @@ export {
     Login,
     Hero,
     Loader,
+    HighLight,
 
 }

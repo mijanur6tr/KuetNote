@@ -7,9 +7,9 @@ function Footer() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-8 flex flex-col items-center">
 
         {/* Centered Column */}
-        <div className="flex flex-wrap justify-center gap-10 lg:gap-50 w-full">
+        <div className="flex flex-wrap justify-center gap-2 lg:gap-50 w-full">
           {/* Company */}
-          <div className="w-full sm:w-auto p-4">
+          <div className="w-full sm:w-auto p-1 lg:p-3">
             <h3 className="mb-6 text-xs font-bold uppercase text-gray-300 tracking-wide ">
               Company
             </h3>
@@ -28,7 +28,7 @@ function Footer() {
           </div>
 
           {/* Support */}
-          <div className="w-full sm:w-auto p-4">
+          <div className="w-full sm:w-auto p-1 lg:p-3">
             <h3 className="mb-6 text-xs font-bold uppercase text-gray-300 tracking-wide ">
               Support
             </h3>
@@ -47,7 +47,7 @@ function Footer() {
           </div>
 
           {/* Legals */}
-          <div className="w-full sm:w-auto p-4">
+          <div className="w-full sm:w-auto p-1 lg:p-3">
             <h3 className="mb-6 text-xs font-bold uppercase text-gray-300 tracking-wide ">
               Legals
             </h3>
@@ -67,7 +67,7 @@ function Footer() {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="mt-8 text-center">
+        <div className="mt-5 text-center">
           <p className="text-sm text-gray-400">
             &copy; {new Date().getFullYear()} All Rights Reserved by KuetNote.
           </p>
