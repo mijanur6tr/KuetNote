@@ -17,10 +17,11 @@ import AddPost from "./pages/AddPost.jsx"
 import AllPost from "./pages/AllPost.jsx"
 import Post from "./pages/Post.jsx"
 import MyPost from './pages/MyPost.jsx'
+import MyProfile from './pages/MyProfile.jsx'
 
 import ContextStoreProvider from './context/contextStore.jsx'
 
- 
+  
 const router = createBrowserRouter([
   {
     path:"/",
@@ -73,6 +74,14 @@ const router = createBrowserRouter([
         )
       },
       {
+        path:"/my-profile",
+        element:(
+          <AuthLayout authentication={true}>
+            <MyProfile/>
+          </AuthLayout>
+        )
+      },
+      {
         path:"/add-post",
         element:(
           <AuthLayout authentication={true}>
@@ -92,6 +101,7 @@ const router = createBrowserRouter([
     ]
   }
 ])
+
 
 
 

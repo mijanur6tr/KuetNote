@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 
 const Hero = ({ isLoggedIn }) => {
   return (
-    <section className={`relative w-full flex items-center justify-center overflow-hidden bg-gradient-to-b 
-  from-slate-900 via-slate-800 to-slate-900 
-  ${isLoggedIn ? "h-[40vh]" : "h-[50vh] lg:h-[60vh]"}`}>
+    <section className="relative w-full flex items-center justify-center overflow-hidden bg-gradient-to-b 
+  from-slate-900 via-slate-800 to-slate-900 h-[50vh]">
 
       {/* Soft glow circles */}
       <div className="absolute top-10 left-20 w-52 h-52 bg-cyan-400/20 rounded-full blur-3xl"></div>
@@ -20,22 +19,19 @@ const Hero = ({ isLoggedIn }) => {
           </span>
         </h1>
 
-        {isLoggedIn ? <></> : (<p className="mt-4 text-lg sm:text-xl text-slate-300 font-medium max-w-xl">
+        <p className="mt-4 text-lg sm:text-xl text-slate-300 font-medium max-w-xl">
           Your space to explore creativity, share insights,
           and experience campus culture with a Gen-Z spark.
-        </p>)
-}
+        </p>
         <p className="mt-2 text-lg sm:text-xl text-slate-300 font-medium max-w-xl">
           Every idea matters. Express yours.
         </p>
 
-        
-
         <Link
-          to={isLoggedIn ? "/add-post" : "/login"}
+          to={"/login"}
           className="mt-8 px-6 py-3 rounded-xl text-white text-lg font-semibold bg-cyan-600 hover:bg-cyan-700 transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          {isLoggedIn ? "Express Yourself ✨" : "Log in to Explore Posts"}
+         Log in to Explore Posts
         </Link>
       </div>
     </section>

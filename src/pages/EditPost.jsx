@@ -2,6 +2,7 @@ import React , {useState ,useEffect} from 'react'
 import { Container, PostForm } from '../components'
 import { useParams, useNavigate } from 'react-router-dom'
 import service from '../appWrite/config'
+import { Loader } from '../components'
 
 
 const EditPost = () => {
@@ -9,6 +10,7 @@ const EditPost = () => {
  const {slug} = useParams()
  const navigate = useNavigate()
  const [post ,setPost] = useState()
+ const [loading, setLoading] = useState(true)
 
  useEffect(()=>{
 
@@ -17,18 +19,24 @@ const EditPost = () => {
         if(post){
           setPost(post)
         }
+        setLoading(false)
+      }).catch(() => {
+        setLoading(false)
       })
     }else{
       navigate('/')
+      setLoading(false)
     }
 
  },[slug,navigate])
 
-  return post ? (<div className='py-8'>
-    <Container>
-      <PostForm post={post}/>
-    </Container>
-  </div>) : null;
-  }
+ if (loading) return <Loader />;
 
-  export default EditPost;
+ return post ? (
+   <div className='min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'>
+     <PostForm post={post}/>
+   </div>
+ ) : null;
+}
+
+export default EditPost;

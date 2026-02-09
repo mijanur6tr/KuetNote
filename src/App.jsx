@@ -1,4 +1,4 @@
-import { useState , useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import  authService  from './appWrite/auth.js'
 import {logIn , logOut} from "./store/authSlice.js"
 import { useDispatch } from 'react-redux'
@@ -11,7 +11,7 @@ import { ToastContainer } from 'react-toastify'
 function App() {
   const [load, setLoad] = useState(true);
   const dispatch = useDispatch()
-  
+
 
   useEffect(() => {
   const fetchUser = async () => {
@@ -36,18 +36,18 @@ function App() {
 
 
   return !load ? (
-   <div className='bg-[#fffffff7] min-h-screen w-full flex flex-col'>
-    <ToastContainer/>
-  <Header />
+    <div className='bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen w-full flex flex-col'>
+     <ToastContainer/>
+   <Header />
 
-  <main className='flex-grow'>
-    <Outlet />
-  </main>
+   <main className='flex-grow'>
+     <Outlet />
+   </main>
 
-  <Footer />
-</div>
+   <Footer />
+ </div>
 
-  ) : null;
+   ) : null;
 }
 
 export default App

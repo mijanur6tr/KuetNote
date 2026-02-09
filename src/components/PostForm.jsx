@@ -117,105 +117,169 @@ const PostForm = ({ post }) => {
   }, [watch, transformSlug, setValue])
 
   return (
-    <div className="py-10 px-4 bg-gradient-to-br from-[#aecae6e1] via-[#8fb6d8dc] to-[#809ab8] min-h-screen rounded-2xl">
-      <h2 className="text-3xl font-bold text-center mb-10 text-amber-800">
-        Create Your Post. <span className="text-indigo-600">Paint Creativity</span>
-      </h2>
-
-      <div className="max-w-6xl mx-auto bg-black/4 rounded-xl shadow-lg p-6 lg:p-16">
-
-        <form
-          onSubmit={handleSubmit(submit, (err) => console.log('Validation Error', err))}
-          className="flex gap-5 lg:gap-10 flex-wrap"
-        >
-          {/* LEFT SECTION */}
-          <div className="lg:w-3/5 px-2  w-full ">
-            <Input
-              type="text"
-              label="Title:"
-              placeholder="Enter your blog title"
-              className="mb-6 w-full"
-              {...register("title", { required: true })}
-              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
-
-            />
-
-            
-            <input type="hidden" {...register("slug", { required: true })} />
-
-            <RTE
-              label="Content:"
-              name="content"
-              control={control}
-              defaultValues={getValues("content")}
-              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
-
-            />
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-8 px-4">
+      {/* Header */}
+      <div className="max-w-6xl mx-auto mb-8">
+        <div className="flex items-center gap-4 mb-2">
+          <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-amber-400 rounded-xl flex items-center justify-center shadow-lg">
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
           </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white">
+              {post ? 'Edit Post' : 'Create Post'}
+            </h1>
+            <p className="text-slate-400 text-sm">
+              {post ? 'Update your post details' : 'Share your thoughts with the community'}
+            </p>
+          </div>
+        </div>
+        <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 to-amber-400 rounded-full"></div>
+      </div>
 
-          {/* RIGHT SECTION */}
-          <div className="lg:w-1/3 w-full px-2 flex flex-col gap-6 ">
-            <div className="flex flex-col gap-2">
-              <label className="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide">
-                Featured Image
-              </label>
+      {/* Form Card */}
+      <div className="max-w-6xl mx-auto bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden">
+        {/* Decorative top bar */}
+        <div className="h-1 bg-gradient-to-r from-cyan-500 via-amber-400 to-purple-500"></div>
 
-              <label className="w-full border-2 border-solid border-gray-400 rounded-lg p-3 text-center cursor-pointer bg-gray-100 hover:bg-gray-200 transition">
-                <div className="flex flex-col items-center justify-center gap-2">
-                  <UploadCloud className="w-6 h-6 text-blue-600" />
-                  <span className="text-gray-700 text-sm">
-                    {previewImage || post?.featuredImage ? 'Click to change image' : 'Click to upload'}
-                  </span>
-
+        <div className="p-6 lg:p-8">
+          <form
+            onSubmit={handleSubmit(submit, (err) => console.log('Validation Error', err))}
+            className="flex gap-6 lg:gap-10 flex-wrap"
+          >
+            {/* LEFT SECTION */}
+            <div className="lg:w-3/5 w-full space-y-6">
+              {/* Title */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-amber-500 rounded-xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
+                <div className="relative">
+                  <label className="block text-slate-300 font-medium text-sm mb-2">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your blog title"
+                    {...register("title", { required: true })}
+                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300"
+                  />
                 </div>
-                <input
-                  type="file"
-                  accept="image/png, image/jpg, image/jpeg, image/gif"
-                  className="hidden"
-                  {...register("image", { required: !post })}
-                />
-              </label>
+              </div>
+
+              <input type="hidden" {...register("slug", { required: true })} />
+
+              {/* Content */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-amber-500 rounded-xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
+                <div className="relative">
+                  <label className="block text-slate-300 font-medium text-sm mb-2">
+                    Content
+                  </label>
+                  <RTE
+                    name="content"
+                    control={control}
+                    defaultValues={getValues("content")}
+                    className="bg-slate-800/50 border border-slate-600/50 rounded-xl"
+                    labelClass="text-slate-300"
+                  />
+                </div>
+              </div>
             </div>
 
-            {(previewImage || post?.featuredImage) && (
-              <div className="w-full rounded-lg overflow-hidden border border-gray-300 shadow-sm">
-                <img
-                  src={previewImage || service.previewFile(post.featuredImage)}
-                  alt="Preview"
-                  className="rounded-md w-full h-auto object-cover"
-                />
+            {/* RIGHT SECTION */}
+            <div className="lg:w-1/3 w-full flex flex-col gap-5">
+              {/* Featured Image */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
+                <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 rounded-xl p-5 border border-slate-700/50">
+                  <label className="block text-slate-300 font-medium text-sm mb-3">
+                    Featured Image
+                  </label>
+
+                  <label className="w-full border-2 border-dashed border-slate-600/50 rounded-xl p-4 text-center cursor-pointer bg-slate-800/30 hover:bg-slate-700/30 hover:border-cyan-500/50 transition-all duration-300">
+                    <div className="flex flex-col items-center justify-center gap-2">
+                      <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-amber-400 rounded-full flex items-center justify-center">
+                        <UploadCloud className="w-6 h-6 text-white" />
+                      </div>
+                      <span className="text-slate-400 text-sm">
+                        {previewImage || post?.featuredImage ? 'Click to change' : 'Click to upload'}
+                      </span>
+                      <span className="text-slate-500 text-xs">PNG, JPG up to 5MB</span>
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/png, image/jpg, image/jpeg, image/gif"
+                      className="hidden"
+                      {...register("image", { required: !post })}
+                    />
+                  </label>
+                </div>
               </div>
-            )}
 
+              {/* Image Preview */}
+              {(previewImage || post?.featuredImage) && (
+                <div className="relative rounded-xl overflow-hidden border border-slate-700/50 shadow-lg">
+                  <img
+                    src={previewImage || service.previewFile(post.featuredImage)}
+                    alt="Preview"
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                </div>
+              )}
 
-            <Select
-              options={["Public", "Private"]}
-              label="Visibility"
-              className="w-1/2 "
+              {/* Visibility */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
+                <div className="relative">
+                  <Select
+                    options={["Public", "Private"]}
+                    label="Visibility"
+                    {...register("status", { required: true })}
+                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-all duration-300"
+                    labelClass="text-slate-300 font-medium text-sm mb-2 block"
+                  />
+                </div>
+              </div>
 
-              {...register("status", { required: true })}
-              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
-            />
-            <Select
-              options={["Learn & Share", "Random Thought", "Academic","Prominent Places", "Subject Review"]}
-              label="Categoy"
-              className="w-1/2 "
+              {/* Category */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
+                <div className="relative">
+                  <Select
+                    options={["Learn & Share", "Random Thought", "Academic", "Prominent Places", "Subject Review"]}
+                    label="Category"
+                    {...register("category", { required: true })}
+                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 transition-all duration-300"
+                    labelClass="text-slate-300 font-medium text-sm mb-2 block"
+                  />
+                </div>
+              </div>
 
-              {...register("category", { required: true })}
-              labelClass="block text-base lg:text-lg font-semibold text-slate-700 mb-1 tracking-wide"
-            />
-
-            <Button
-              type="submit"
-              bgColor={post ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"}
-              className="text-white mx-auto font-semibold py-2 rounded-md w-full sm:w-1/2 px-4 sm:px-0 max-w-xs"
-            >
-              {post ? "Update Post" : "Publish Post"}
-            </Button>
-
-          </div>
-
-        </form>
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full py-4 bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 mt-4"
+              >
+                {post ? (
+                  <>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Update Post
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    Publish Post
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )
