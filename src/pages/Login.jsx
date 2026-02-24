@@ -4,7 +4,7 @@ import {Login as CompLogIn} from '../components/index'
 
 const Login = (props) => {
   return(
-    <div className='py-7'>
+    <div>
         <CompLogIn/>
     </div>
    )

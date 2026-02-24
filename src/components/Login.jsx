@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Input } from './index'
 import { useNavigate, Link } from 'react-router-dom'
-import authService from '../appWrite/auth'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { logIn as authLogIN } from '../store/authSlice'
+import { loginUser } from '../store/authSlice'
 
 
 
@@ -17,26 +16,23 @@ function Login() {
   const login = async (data) => {
     setError('')
     try {
-      const session = await authService.logIn(data)
-      if (session) {
-        const userData = await authService.getCurrentUser();
-        if (userData) dispatch(authLogIN(userData));
-        navigate("/");
-      }
+      const result = await dispatch(loginUser(data)).unwrap()
+      navigate("/");
     } catch (error) {
-      setError(error.message)
+      console.error('Login error:', error)
+      setError(error?.message || String(error))
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex">
+    <div className=" bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex">
       
       {/* Left Side - Welcome & SVG */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-12 flex-col justify-center items-center relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-54 h-64 bg-amber-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
         
         {/* Decorative Circles */}

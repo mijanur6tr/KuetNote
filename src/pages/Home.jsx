@@ -1,23 +1,26 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container, PostCard, Loader } from '../components';
 import { Link, useNavigate } from 'react-router-dom';
-import { ContextStore } from '../context/contextStore';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchPosts } from '../store/postSlice';
 
 const Home = () => {
-  const { postList, loading } = useContext(ContextStore);
+  const dispatch = useDispatch();
+  const { posts, loading } = useSelector((state) => state.posts);
   const user = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) {
       navigate('/login');
+    } else {
+      dispatch(fetchPosts());
     }
-  }, [user, navigate]);
+  }, [user, navigate, dispatch]);
 
-  const publicPosts = postList
+  const publicPosts = posts
     .filter((post) => post.status === "Public")
-    .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -43,7 +46,7 @@ const Home = () => {
                       Experience
                     </h1>
                     <span className="bg-gradient-to-r from-cyan-400 to-amber-300 bg-clip-text text-transparent text-2xl font-extrabold">
-                      Noteshare
+                      Thought Share
                     </span>
                   </div>
             
@@ -113,7 +116,7 @@ const Home = () => {
 
             {/* Right Sidebar - KuetBubble Advertisement */}
             <div className='lg:col-span-3 hidden lg:block'>
-              <div className='sticky top-24 bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 rounded-2xl p-6 shadow-2xl border border-purple-700/50 overflow-hidden relative hover:border-purple-500/50 transition-all duration-300'>
+              <div className='sticky top-24 bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 rounded-2xl p-6 shadow-2xl border border-purple-700/50 overflow-hidden hover:border-purple-500/50 transition-all duration-300'>
                 {/* Decorative Elements */}
                 <div className='absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl'></div>
                 <div className='absolute bottom-0 left-0 w-24 h-24 bg-indigo-500/10 rounded-full blur-2xl'></div>

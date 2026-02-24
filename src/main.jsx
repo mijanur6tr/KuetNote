@@ -19,15 +19,11 @@ import Post from "./pages/Post.jsx"
 import MyPost from './pages/MyPost.jsx'
 import MyProfile from './pages/MyProfile.jsx'
 
-import ContextStoreProvider from './context/contextStore.jsx'
-
   
 const router = createBrowserRouter([
   {
     path:"/",
-    element: <ContextStoreProvider>
-        <App />
-      </ContextStoreProvider>,
+    element: <App />,
     children:[
       {
         path:"/",

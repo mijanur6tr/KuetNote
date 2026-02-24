@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import  authService  from './appWrite/auth.js'
+import apiService from './services/api.js'
 import {logIn , logOut} from "./store/authSlice.js"
 import { useDispatch } from 'react-redux'
 import { Outlet } from 'react-router-dom'
@@ -16,10 +16,11 @@ function App() {
   useEffect(() => {
   const fetchUser = async () => {
     try {
-      const userData = await authService.getCurrentUser();
+      const userData = await apiService.getCurrentUser();
 
       if (userData) {
-        dispatch(logIn(userData));  
+        // API returns { user: { ... } } — normalize to the user object
+        dispatch(logIn(userData.user || userData));
       } else {
         dispatch(logOut());
       }

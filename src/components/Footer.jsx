@@ -19,8 +19,7 @@ function Footer() {
               <span className="text-2xl font-bold text-white">KuetNote</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Your ultimate note-taking companion. Capture ideas, organize thoughts, 
-              and access your notes from anywhere. Built for students and professionals alike.
+              Your ultimate take-sharing platform. Discover, share, and connect with a vibrant community of learners. Join us in revolutionizing the way knowledge is shared and experienced.
             </p>
           </div>
 
@@ -86,7 +85,7 @@ function Footer() {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="py-6 border-t border-slate-700 text-center">
+        <div className="py-3   text-center">
           <p className="text-sm text-gray-400">
             &copy; {new Date().getFullYear()} KuetNote. All rights reserved.
           </p>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import authService from '../appWrite/auth';
-import { logIn } from '../store/authSlice';
+import { signupUser } from '../store/authSlice';
 import { useForm } from 'react-hook-form';
 
 
@@ -15,19 +14,15 @@ const SignUp = () => {
   const signup = async (data) => {
     setError('')
     try {
-      const user = await authService.signUp(data)
-      if (user) {
-        const userdata = await authService.getCurrentUser()
-        if (userdata) dispatch(logIn(userdata))
-        navigate("/")
-      }
+      const result = await dispatch(signupUser(data)).unwrap()
+      navigate("/")
     } catch (error) {
-      setError(error.message)
+      setError(error)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex">
+    <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex">
       
       {/* Left Side - Welcome & SVG */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-12 flex-col justify-center items-center relative overflow-hidden">

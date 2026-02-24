@@ -1,19 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, PostCard, Loader } from '../components';
-import { ContextStore } from '../context/contextStore';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchPosts } from '../store/postSlice';
 
 
-const categories = ["Learn & Share", "Random Thought", "Academic", "Prominent Places", "Subject Review"];
+const categories = ["All", "Learn & Share", "Random Thought", "Academic", "Prominent Places", "Subject Review"];
 
 const AllPost = () => {
-  
-  
-  const {postList,loading} = useContext(ContextStore)
-  const [selectedCategory, setSelectedCategory] = useState('Learn & Share');
+  const dispatch = useDispatch();
+  const { posts, loading } = useSelector((state) => state.posts);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const publicPosts = postList
-          .filter(post => post.status === 'Public')
-          .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
+  const publicPosts = posts
+    .filter(post => post.status === 'Public')
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const filteredPosts =
     selectedCategory === 'All'

@@ -3,8 +3,7 @@ import { Container, Logo } from "./index"
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { logOut } from '../store/authSlice'
-import authService from '../appWrite/auth'
+import { logOut, logoutUser } from '../store/authSlice'
 
 
 function Header() {
@@ -27,8 +26,7 @@ function Header() {
   }, [])
 
   const handleLogout = () => {
-    authService.logOut()
-    dispatch(logOut())
+    dispatch(logoutUser())
     navigate('/login')
     setProfileMenuOpen(false)
   }

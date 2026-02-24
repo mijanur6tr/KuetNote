@@ -1,23 +1,26 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container, PostCard, Loader } from '../components';
 import { Link, useNavigate } from 'react-router-dom';
-import { ContextStore } from '../context/contextStore';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchMyPosts } from '../store/postSlice';
 
 const MyProfile = () => {
-  const { myPostList, loading } = useContext(ContextStore);
+  const dispatch = useDispatch();
+  const { myPosts, loading } = useSelector((state) => state.posts);
   const user = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) {
       navigate('/login');
+    } else {
+      dispatch(fetchMyPosts());
     }
-  }, [user, navigate]);
+  }, [user, navigate, dispatch]);
 
-  const myPosts = myPostList
+  const publicPosts = myPosts
     .filter((post) => post.status === "Public")
-    .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   if (loading) return <Loader />;
 
@@ -63,11 +66,11 @@ const MyProfile = () => {
                   {/* Stats */}
                   <div className='w-full grid grid-cols-2 gap-3 pt-2'>
                     <div className='bg-slate-800/50 rounded-xl p-3 text-center border border-slate-700/30'>
-                      <p className='text-cyan-400 font-bold text-xl'>{myPostList.length}</p>
+                      <p className='text-cyan-400 font-bold text-xl'>{myPosts.length}</p>
                       <p className='text-slate-400 text-xs'>Posts</p>
                     </div>
                     <div className='bg-slate-800/50 rounded-xl p-3 text-center border border-slate-700/30'>
-                      <p className='text-amber-400 font-bold text-xl'>{myPosts.length}</p>
+                      <p className='text-amber-400 font-bold text-xl'>{publicPosts.length}</p>
                       <p className='text-slate-400 text-xs'>Public</p>
                     </div>
                   </div>
@@ -96,11 +99,11 @@ const MyProfile = () => {
                   </div>
 
                   {/* Member Since */}
-                  <div className='pt-4 border-t border-slate-700/50 w-full'>
+                  {/* <div className='pt-4 border-t border-slate-700/50 w-full'>
                     <p className='text-xs text-slate-500 leading-relaxed'>
                       Member since {user?.$createdAt ? new Date(user.$createdAt).getFullYear() : '2024'}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -137,7 +140,9 @@ const MyProfile = () => {
                     <p className="text-white font-medium">{user?.email || 'N/A'}</p>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-4 bg-slate-900/50 rounded-xl border border-slate-700/30">
+                  {/* TODO: work on userid and member since field */}
+
+                  {/* <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-4 bg-slate-900/50 rounded-xl border border-slate-700/30">
                     <div className="w-32">
                       <p className="text-slate-400 text-sm">User ID</p>
                     </div>
@@ -155,7 +160,7 @@ const MyProfile = () => {
                         day: 'numeric'
                       }) : 'N/A'}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -170,15 +175,15 @@ const MyProfile = () => {
                 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div className="bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 rounded-xl p-4 text-center border border-cyan-500/30">
-                    <p className="text-2xl font-bold text-cyan-400">{myPostList.length}</p>
+                    <p className="text-2xl font-bold text-cyan-400">{myPosts.length}</p>
                     <p className="text-slate-400 text-xs">Total Posts</p>
                   </div>
                   <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-4 text-center border border-green-500/30">
-                    <p className="text-2xl font-bold text-green-400">{myPosts.length}</p>
+                    <p className="text-2xl font-bold text-green-400">{publicPosts.length}</p>
                     <p className="text-slate-400 text-xs">Public</p>
                   </div>
                   <div className="bg-gradient-to-br from-amber-500/20 to-amber-600/20 rounded-xl p-4 text-center border border-amber-500/30">
-                    <p className="text-2xl font-bold text-amber-400">{myPostList.length - myPosts.length}</p>
+                    <p className="text-2xl font-bold text-amber-400">{myPosts.length - publicPosts.length}</p>
                     <p className="text-slate-400 text-xs">Private</p>
                   </div>
                   <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-xl p-4 text-center border border-purple-500/30">
@@ -191,7 +196,7 @@ const MyProfile = () => {
 
             {/* Right Sidebar - KuetBubble Advertisement */}
             <div className='lg:col-span-3 hidden lg:block'>
-              <div className='sticky top-24 bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 rounded-2xl p-6 shadow-2xl border border-purple-700/50 overflow-hidden relative hover:border-purple-500/50 transition-all duration-300'>
+              <div className='sticky top-24 bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 rounded-2xl p-6 shadow-2xl border border-purple-700/50 overflow-hidden hover:border-purple-500/50 transition-all duration-300'>
                 {/* Decorative Elements */}
                 <div className='absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl'></div>
                 <div className='absolute bottom-0 left-0 w-24 h-24 bg-indigo-500/10 rounded-full blur-2xl'></div>

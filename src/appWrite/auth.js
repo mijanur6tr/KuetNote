@@ -1,61 +1,54 @@
-import { Client, Account, ID } from "appwrite";
-import config from '../conf/conf.js'
+// import apiService from '../services/api.js';
 
-export class AuthService {
-    client= new Client();
-    account;
+// export class AuthService {
+//     async signUp ({email, password , name}){
+//         try {
+//             const response = await apiService.signUp({ email, password, name });
+//             if (response.user) {
+//                 // Store token
+//                 localStorage.setItem('token', response.token);
+//                 return response;
+//             } else {
+//                 return response;
+//             }
+//         } catch (error) {
+//             throw error;
+//         }
+//     }
 
-    constructor(){
-        this.client
-            .setEndpoint(config.appwriteUrl)
-            .setProject(config.appwriteProjectId)
-        this.account = new Account(this.client)
-            
-    }
+//     async logIn ({email,password}){
+//         try {
+//             const response = await apiService.logIn({ email, password });
+//             // Store token
+//             localStorage.setItem('token', response.token);
+//             return response;
+//         } catch (error) {
+//             throw error;
+//         }
+//     }
 
-    async signUp ({email, password , name}){
-        try {
-            const userAccount = await this.account.create(ID.unique(),email,password,name)
+//     async getCurrentUser (){
+//         try {
+//             const response = await apiService.getCurrentUser();
+//             return response.user;
+//         } catch (error) {
+//             console.log("Auth service :: getCurrentUser error", error);
+//             return null;
+//         }
+//     }
 
-            if (userAccount) {
-                //give the access to log in
-                return this.logIn({email,password})
-            } else {
-                return userAccount;
-            }
+//     async logOut (){
+//         try {
+//             await apiService.logOut();
+//             localStorage.removeItem('token');
+//             return true;
+//         } catch (error) {
+//             console.log("Auth service :: logOut error", error);
+//             return false;
+//         }
+//     }
+// }
 
-        } catch (error) {
-            throw error;
-        }
-    }
+// const authService = new AuthService();
 
-    async logIn ({email,password}){
-        try {
-            return await this.account.createEmailPasswordSession(email,password)
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async getCurrentUser (){
-        try {
-            return await this.account.get()
-        } catch (error) {
-            console.log("Appwrite service :: getUser error",error)
-        }
-        return null;
-    }
-
-    async logOut (){
-        try {
-            return await this.account.deleteSessions()
-        } catch (error) {
-            console.log("Appwrite service :: logOut error",error)
-        }
-    }
-
-}
-
-const authService = new AuthService();
-
-export default authService;
+// export default authService;

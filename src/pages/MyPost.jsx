@@ -1,17 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import service from '../appWrite/config';
+import React, { useState, useEffect } from 'react';
 import { Container, PostCard, Loader, Button } from '../components';
 import { Link } from 'react-router-dom';
-import { ContextStore } from '../context/contextStore';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchMyPosts } from '../store/postSlice';
 
 const MyPost = () => {
-  
-  const {myPostList,loading} = useContext(ContextStore)
-  const [filter, setFilter] = useState('Public'); 
-  
+  const dispatch = useDispatch();
+  const { myPosts, loading } = useSelector((state) => state.posts);
+  const [filter, setFilter] = useState('All');
 
-  const filteredPosts = myPostList
-    .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt)) // DESC order
+  useEffect(() => {
+    dispatch(fetchMyPosts());
+  }, [dispatch]);
+
+  const filteredPosts = [...myPosts]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // DESC order
     .filter(post => (filter === 'All' ? true : post.status === filter));
 
 
@@ -27,9 +30,8 @@ const MyPost = () => {
           <div className='h-1 w-20 bg-gradient-to-r from-cyan-500 to-amber-400 rounded-full'></div>
         </div>
 
-        
         <div className="flex flex-wrap justify-center gap-3 mb-10">
-          {['Public', 'Private'].map(status => (
+          {['All', 'Public', 'Private'].map(status => (
             <button
               key={status}
               onClick={() => setFilter(status)}

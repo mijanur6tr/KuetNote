@@ -15,6 +15,7 @@ import Login from "./Login"
 import Hero from "./Hero"
 import Loader from "./Loader"
 import HighLight from "./HighLight"
+import CommentCard from "./CommentCard"
 
 
 export {
@@ -35,5 +36,5 @@ export {
     Hero,
     Loader,
     HighLight,
-
+    CommentCard,
 }
